@@ -1,0 +1,153 @@
+<!DOCTYPE HTML> 
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+ 
+<script>
+
+	var start = 0;
+	var page = 5;
+
+	function getCurrentUser() {
+    	$.ajax({
+    	    url: "/SchoolRestJPASecure/system/systemservices/users/current",
+    	    type: 'GET',
+    	    datatype: 'json',
+    	    statusCode: {
+    	    200: function( response ) {
+    	
+    			$('#userWelcome').html("Welcome, "+response.firstName+" "+response.lastName);
+    	    },
+    	    401:function( response ) {
+    	    		$('#user-list-table').html("You must Login first");}
+    	    },
+    	    
+    	    error: function(jqXHR, textStatus, errorThrown) {
+      	        console.log("error " + textStatus);
+      	        console.log("incoming Text " + jqXHR.responseText);},
+    	    beforeSend: setHeader       
+    	  });   	
+    }
+	function getCookie(cname) {
+	    var name = cname + "=";
+	    var decodedCookie = decodeURIComponent(document.cookie);
+	    var ca = decodedCookie.split(';');
+	    for(var i = 0; i <ca.length; i++) {
+	        var c = ca[i];
+	        while (c.charAt(0) == ' ') {
+	            c = c.substring(1);
+	        }
+	        if (c.indexOf(name) == 0) {
+	            return c.substring(name.length, c.length);
+	        }
+	    }
+	    return "";
+	}
+	
+	function setHeader(xhr) {
+		  token = getCookie("token");
+		  xhr.setRequestHeader('Authorization', 'Bearer '+token );		  
+	}
+	
+	function getPrevious()
+	{
+		start = start-page;
+		if (start <1)  start = 0;
+		createTable(start);
+	}
+	
+	function getNext()
+	{
+		if ($("#user-list-table") && $("#user-list-table").prop('rows').length-1 == page) start=start+page;
+		createTable(start);
+	}
+
+    function selectChange() 
+    {
+        id = getId();
+        $("#selectedID").html(id);
+        $("#updateID").val(id);
+        $("#deleteID").val(id);   
+    }
+    
+    function getId()
+	{ 
+	  return jQuery( 'input[name=selectedRow]:checked' ).val()
+	}
+  
+    function createTable(start) {
+
+    	$.ajax({
+    	    url: "/SchoolRestJPASecure/system/systemservices/users?page="+start+"&per_page="+page,
+    	    type: 'GET',
+    	    datatype: 'json',
+    	    statusCode: {
+    	    200: function( response ) {
+      		  var tableHTML = '<tr><th></th><th width= 50px>ID</th><th width= 100px>First Name</th><th width= 100px>Last Name</th></tr>';
+  	        		$.each(response, function (i, user) {
+  	            		tableHTML += '<tr><td><input type="radio" onchange= "selectChange()" name="selectedRow" value='+user.userID+'><td>' + user.userID + '</td><td>' + user.firstName + '</td><td>' + user.lastName + '</td></tr>';
+  	        		});
+  	        tableHTML+='</table>';
+  	       $('#user-list-table').html(tableHTML);},
+  	    401:function( response ) {
+  	    		$('#user-list-table').html("You must Login first");
+  	    		},
+    	    403:function( response ) {
+  	    		$('#user-list-table').html("Access to the page forbiden");
+  	    		}
+    	    },
+  	    
+    	    error: function(jqXHR, textStatus, errorThrown) {
+      	        console.log("error " + textStatus);
+      	        console.log("incoming Text " + jqXHR.responseText);},
+    	    beforeSend: setHeader       
+    	  });   
+
+     }
+	$(document).ready(function() {
+    		$("#previous").click(function() {getPrevious()});
+    		$("#next").click(function() {getNext()});
+    		createTable(start);
+    		getCurrentUser();
+    })
+</script>
+</head>
+<body> 
+<div>
+<ul class="nav">
+<li><a href="student-list.html">Students</a></li>
+<li><a href="user-list.html">Users</a></li>
+<li><a href="logout.html">Logout</a></li>
+</ul>
+</div>
+<div id="userWelcome"> </div>
+<h2>User List</h2>
+<div class = "block-center">
+<div id="user-table">
+<table class='center' id='user-list-table' >
+</table>
+</div>
+<br><br>
+<button id="previous" class='inline' >Previous</button>
+<button id = "next"class='inline' >Next</button>
+<br><br>
+
+<br><br>
+<p id="selectedID"></p>
+<form class='inline' action="user-update.html" method="get">
+	<input id="updateID" type="hidden" name="id" value="">
+    <input type="submit" value="Update">
+</form>
+
+<form class='inline' action="user-add.html" method ="get">
+<button type="submit" >Add</button>
+</form>
+<form class='inline' action="user-delete.html" method="get">
+	<input id="deleteID" type="hidden" name="id" value="">
+    <input type="submit" value="Delete">
+</form>
+</div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE HTML> 
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+</head>
+<body> 
+<script>
+
+$(document).ready(function() {
+$("#loginForm").submit(function (e){
+		var userName = $('#userName').val();
+		var password = $('#password').val();
+
+		$.ajax( { 
+			url:"/SchoolRestJPASecure/system/systemservices/login/",
+			type: "POST",
+			dataType: "json",
+			contentType: "application/json",
+			data: '{'+  
+				'"userName" : "'+userName+'",'+
+				'"password" : "'+password+'"'+
+			"}",
+			statusCode: {
+			200: function(response) {
+				  document.cookie="token=" + response.responseText;
+				  $("#page-message").html("Logged in");
+				  window.location.assign("student-list.html");
+		  		},
+		  	406: function(response) {
+		  		var errors = response.responseJSON;
+		  		$(".error").html("*");
+		  		$.each(errors, function (i, message) {
+		  			$("#"+message.attributeName+"Err").html(message.message);
+		  			console.log("Error "+message.attributeName +" "+message.message)
+    	        		});
+		  		$("#page-message").html("Username and password not found");
+		  		},
+		  	
+			404 : function(jqXHR, textStatus, errorThrown) {
+				$("#page-message").html("Error:"+textStatus);
+				consule.log(errorThrown);
+	  	        console.log("error " + textStatus);
+	  	        console.log("incoming Text " + jqXHR.responseText);
+	  	      	}
+			}
+			});
+
+		e.preventDefault();
+});
+});
+
+</script>
+
+<h2>Login</h2>
+<p id ='debug'></p>
+<div class ='block-center'>
+<p><span id="page-message">Enter fields and click Save</span></p>
+<p><span class="error-head">* required field.</span></p>
+<form id="loginForm" method="post"> 
+   Username: <input type="text" id="userName" >
+   <span id="usernameErr" class="error">* </span>
+   <br><br>
+   Password: <input type="text" id="password">
+   <span id="passwordErr" class="error">* </span>
+   <br><br>
+   <input type="submit" name="login" value="Login"> 
+</form>
+
+</div>
+</body>
+</html>
