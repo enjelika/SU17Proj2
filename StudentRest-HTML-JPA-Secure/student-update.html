@@ -9,7 +9,7 @@
 <script>
 function getCurrentUser() {
 	$.ajax({
-	    url: "/SchoolRestJPASecure/system/systemservices/users/current",
+	    url: "/EagleEventService/system/systemservices/users/current",
 	    type: 'GET',
 	    datatype: 'json',
 	    statusCode: {
@@ -60,7 +60,7 @@ function getLocation(zip)
 {
 	if (zip != '')
 	{
-		$.getJSON( "/SchoolRestJPASecure/school/zipservice/zip/"+zip)
+		$.getJSON( "/EagleEventService/school/zipservice/zip/"+zip)
   	  .done(function(data) {
 				if($("#city").val()=='')
 					 $("#city").val(data.city);
@@ -74,7 +74,7 @@ $(document).ready(function() {
 	getCurrentUser();
 	
 	$.ajax({
-	    url: "/SchoolRestJPASecure/school/studentservice/students/"+$.urlParam("id"),
+	    url: "/EagleEventService/school/studentservice/students/"+$.urlParam("id"),
 	    type: 'GET',
 	    datatype: 'json',
 	    statusCode: {
@@ -115,7 +115,7 @@ $("#studentForm").submit(function (e){
 		if (gender == null) gender ="";
 
 		$.ajax( { 
-			url:"/SchoolRestJPASecure/school/studentservice/students/"+$.urlParam("id"),
+			url:"/EagleEventService/school/studentservice/students/"+$.urlParam("id"),
 			type: "PUT",
 			dataType: "json",
 			contentType: "application/json",

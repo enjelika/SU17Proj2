@@ -60,7 +60,7 @@
     
     function getCurrentUser() {
     	$.ajax({
-    	    url: "/SchoolRestJPASecure/system/systemservices/users/current",
+    	    url: "/EagleEventService/system/systemservices/users/current",
     	    type: 'GET',
     	    datatype: 'json',
     	    statusCode: {
@@ -82,7 +82,7 @@
     function createTable(start) {
 
     	$.ajax({
-    	    url: "/SchoolRestJPASecure/school/studentservice/students?page="+start+"&per_page="+page,
+    	    url: "/EagleEventService/school/studentservice/students?page="+start+"&per_page="+page,
     	    type: 'GET',
     	    datatype: 'json',
     	    statusCode: {

@@ -9,7 +9,7 @@
 <script>
 function getCurrentUser() {
 	$.ajax({
-	    url: "/SchoolRestJPASecure/system/systemservices/users/current",
+	    url: "/EagleEventService/system/systemservices/users/current",
 	    type: 'GET',
 	    datatype: 'json',
 	    statusCode: {
@@ -65,7 +65,7 @@ $(document).ready(function() {
 	getCurrentUser();
 	
 	$.ajax({
-	    url: "/SchoolRestJPASecure/system/systemservices/users/"+$.urlParam("id"),
+	    url: "/EagleEventService/system/systemservices/users/"+$.urlParam("id"),
 	    type: 'GET',
 	    datatype: 'json',
 	    statusCode: {
@@ -123,7 +123,7 @@ $(document).ready(function() {
 					});
 				jsonData +="]}",
 				$.ajax( { 
-					url:"/SchoolRestJPASecure/system/systemservices/users/"+$.urlParam("id"),
+					url:"/EagleEventService/system/systemservices/users/"+$.urlParam("id"),
 					type: "PUT",
 					dataType: "json",
 					contentType: "application/json",

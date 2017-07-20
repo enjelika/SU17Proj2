@@ -8,7 +8,6 @@
       <param-name>jersey.config.server.provider.packages</param-name>
       <param-value>schoolREST;systemREST</param-value>
     </init-param>
-    
   </servlet>
   <servlet-mapping>
     <servlet-name>School RESTful Application</servlet-name>
