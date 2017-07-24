@@ -1,7 +1,7 @@
 @CHARSET "UTF-8";
 
 body {
-	background : #D8D8D8;
+	background : #ffffff;
 	font-family: Ariel, sans-serif;
 }
 
@@ -12,6 +12,7 @@ h2 {
 	padding: 10px;
 	
 }
+
 table {
     border-collapse: collapse;
 }
@@ -21,14 +22,17 @@ table, th, td {
     padding : 10px;
     text-align: left;
 }
+
 th {
 	background-color: black;
     color: white;
 }
+
 input[type="text"]
 {
     font-size:14px;
 }
+
 button, input[type=button], input[type=submit] {
     background-color: #A4A4A4;
     border: none;
@@ -60,9 +64,11 @@ form {
 	margin: auto 0;
 	display: inline-block;
 }
+
 form.inline {
 	display: inline-block;
 }
+
 .error,.error-head {color: #FF0000;}
 
 .nav{
@@ -73,9 +79,11 @@ form.inline {
     background-color: #333;
     text-align:center;
 }
+
 .nav li{
     display:inline;
 }
+
 .nav a{
     display:inline-block;
     color: white;
