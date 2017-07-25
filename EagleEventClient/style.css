@@ -94,3 +94,13 @@ form.inline {
 .nav a:hover {
     background-color: #111;
 }
+
+.generalArea {
+	background-color: #FBE5D6;
+	margin-left: 20%;
+	margin-right: 20%;
+	border-radius: 10px;
+	border-color: black;
+	border-style: solid;
+}
+		
