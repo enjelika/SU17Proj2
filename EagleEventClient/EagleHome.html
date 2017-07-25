@@ -1,0 +1,134 @@
+<html><head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+<title>Home</title>
+ 
+<script>
+
+	var start = 0;
+	var page = 5;
+
+	
+	function getCookie(cname) {
+	    var name = cname + "=";
+	    var decodedCookie = decodeURIComponent(document.cookie);
+	    var ca = decodedCookie.split(';');
+	    for(var i = 0; i <ca.length; i++) {
+	        var c = ca[i];
+	        while (c.charAt(0) == ' ') {
+	            c = c.substring(1);
+	        }
+	        if (c.indexOf(name) == 0) {
+	            return c.substring(name.length, c.length);
+	        }
+	    }
+	    return "";
+	}
+	
+	function setHeader(xhr) {
+		  token = getCookie("token");
+		  xhr.setRequestHeader('Authorization', 'Bearer '+token );		  
+	}
+	
+	function getPrevious()
+	{
+		start = start-page;
+		if (start <1)  start = 0;
+		createTable(start);
+	}
+	
+	function getNext()
+	{
+		if ($("#student-list-table") && $("#student-list-table").prop('rows').length-1 == page) start=start+page;
+		createTable(start);
+	}
+
+    function selectChange() 
+    {
+        id = getId();
+        $("#selectedID").html(id);
+        $("#updateID").val(id);
+        $("#deleteID").val(id);   
+    }
+    
+    function getId()
+	{ 
+	  return jQuery( 'input[name=selectedRow]:checked' ).val()
+	}
+    
+    function getCurrentUser() {
+    	$.ajax({
+    	    url: "/EagleEventService/system/systemservices/users/current",
+    	    type: 'GET',
+    	    datatype: 'json',
+    	    statusCode: {
+    	    200: function( response ) {
+    	
+    			$('#userWelcome').html("Welcome, "+response.firstName+" "+response.lastName);
+    	    },
+    	    401:function( response ) {
+    	    		$('#student-list-table').html("You must Login first");}
+    	    },
+    	    
+    	    error: function(jqXHR, textStatus, errorThrown) {
+      	        console.log("error " + textStatus);
+      	        console.log("incoming Text " + jqXHR.responseText);},
+    	    beforeSend: setHeader       
+    	  });   	
+    }
+  
+    function createTable(start) {
+
+    	$.ajax({
+    	    url: "/EagleEventService/school/studentservice/students?page="+start+"&per_page="+page,
+    	    type: 'GET',
+    	    datatype: 'json',
+    	    statusCode: {
+    	    200: function( response ) {
+      		  var tableHTML = '<tr><th></th><th width= 50px>ID</th><th width= 100px>First Name</th><th width= 100px>Last Name</th></tr>';
+  	        		$.each(response, function (i, student) {
+  	            		tableHTML += '<tr><td><input type="radio" onchange= "selectChange()" name="selectedRow" value='+student.idNumber+'><td>' + student.idNumber + '</td><td>' + student.firstName + '</td><td>' + student.lastName + '</td></tr>';
+  	        		});
+  	        tableHTML+='</table>';
+  	       $('#student-list-table').html(tableHTML);},
+  	    401:function( response ) {
+  	    		$('#student-list-table').html("You must Login first");
+  	    		},
+    	    403:function( response ) {
+  	    		$('#student-list-table').html("Access to the page forbiden");
+  	    		}
+    	    },
+  	    
+    	    error: function(jqXHR, textStatus, errorThrown) {
+      	        console.log("error " + textStatus);
+      	        console.log("incoming Text " + jqXHR.responseText);},
+    	    beforeSend: setHeader       
+    	  });   
+
+     }
+	$(document).ready(function() {
+    		$("#previous").click(function() {getPrevious()});
+    		$("#next").click(function() {getNext()});
+    		getCurrentUser();
+    		createTable(start);
+    })
+</script>
+</head>
+<body> 
+<div>
+	<div>
+		
+	</div>
+<ul class="nav">
+<img src="images/eagleEventPlanningLogo.png" alt="logo" height="100">
+<li><a href="student-list.html">Company</a></li>
+<li><a href="user-list.html">Customer</a></li>
+<li><a href="logout.html">Event</a></li>
+<li><a href="logout.html">Staff</a></li>
+<li><a href="logout.html">Logout</a></li>
+</ul>
+</div>
+<div id="userWelcome">Welcome, Test User</div>
+<h2>Current Customers</h2>
+</body></html>

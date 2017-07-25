@@ -26,9 +26,9 @@
 				200: function(response) {
 					  document.cookie="token=" + response.responseText;
 					  $("#page-message").html("Logged in");
-					  window.location.assign("student-list.html");
+					  window.location.assign("EagleHome.html");
 			  		},
-			  	406: function(response) {
+			  	401: function(response) {
 			  		var errors = response.responseJSON;
 			  		$(".error").html("*");
 			  		$.each(errors, function (i, message) {
@@ -62,16 +62,16 @@
 						height="250" width="auto"/>
 				</td>
 				<td>
-					<p><span class="error-head">* required field.</span></p>
 					<form id="loginForm" method="post"> 
 					   Username: <br>
 					   <input type="text" id="userName" >
 					   <span id="usernameErr" class="error">* </span>
 					   <br><br>
 					   Password: <br>
-					   <input type="text" id="password">
+					   <input type="password" id="password">
 					   <span id="passwordErr" class="error">* </span>
 					   <br><br>
+					   <div id="page-message" style="color: red"></div>
 					   <input type="image" src="images/eagleLoginButton.png" 
 					   		height="auto" width="200" name="login" value="Login"> 
 					</form>
