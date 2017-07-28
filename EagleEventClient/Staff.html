@@ -4,7 +4,7 @@
 <script src="scripts/jquery.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="style.css">
-<title>Customer Maintenance</title>
+<title>Staff Maintenance</title>
 <style>
 input[type="text"] {
     font-size: 14px;
@@ -47,18 +47,18 @@ function RemoveClicked()
 </ul>
 </div>
 <div id="userWelcome"> </div>
-<h2>Customer Maintenance</h2>
+<h2>Staff Maintenance</h2>
 <div class = "block-center">
 <div id="buttonArea" style="float: left;width: 250px;">
-		   <input type="image" src="images/eagleAddCustomerButton.png" height="auto" width="200" name="reset" value="Reset" style="float: right;" onclick="AddClicked()"><br>
-			<input type="image" src="images/eagleUpdateCustomerButton.png" height="auto" width="200" name="reset" value="Reset" style="float: right;" onclick="UpdateClicked()"> <br>
-		   	<input type="image" src="images/eagleRemoveCustomerButton.png" height="auto" width="200" name="reset" value="Reset" style="float: right;" onclick="RemoveClicked()"> <br>
+		   <input type="image" src="images/eagleAddStaffButton.png" height="auto" width="200" name="reset" value="Reset" style="float: right;" onclick="AddClicked()"><br>
+			<input type="image" src="images/eagleUpdateStaffButton.png" height="auto" width="200" name="reset" value="Reset" style="float: right;" onclick="UpdateClicked()"> <br>
+		   	<input type="image" src="images/eagleRemoveStaffButton.png" height="auto" width="200" name="reset" value="Reset" style="float: right;" onclick="RemoveClicked()"> <br>
 </div>
 <div id="customerInformation" class="generalArea" style="height: 300px;">
 <br>
 <div id="addCustomer" style="display:none;">
 		<form id="customerAddInformation" method="post"> 
-		   Customer Name:
+		   Staff Name:
 		   <input type="text" id="customerName" >
 		   <span id="customerNameErr" class="error">* </span>
 		   <br><br>
@@ -74,7 +74,7 @@ function RemoveClicked()
 		</form></div>
 <div id="updateCustomer" style="display:none;">
 <form id="customerUpdateInformation" method="post"> 
-		   Customer Name:
+		   Staff Name:
 		   <input type="text" id="customerName" >
 		   <span id="customerNameErr" class="error">* </span>
 		   <br><br>
@@ -90,12 +90,12 @@ function RemoveClicked()
 		</form></div>
 <div id="removeCustomer" style="display:none;">
 <form id="customerRemoveInformation" method="post"> 
-		   Customer Name:
+		   Staff Name:
 		   <input type="text" id="customerName" >
 		   <span id="customerNameErr" class="error">* </span>
 		   <br><br>
 		   <div id="page-message" style="color: red"></div>
-		   <input type="image" src="images/eagleRemoveCustomerButton.png" 
+		   <input type="image" src="images/eagleRemoveStaffButton.png" 
 		   		height="auto" width="200" name="delete" value="Delete"> 
 		</form></div></div>
 </div>
