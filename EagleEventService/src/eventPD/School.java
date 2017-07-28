@@ -1,4 +1,4 @@
-package schoolPD;
+package eventPD;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -14,8 +14,8 @@ import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import schoolDAO.StudentDAO;
-import schoolUT.Log;
+import eventDAO.StudentDAO;
+import eventUT.Log;
 
 @XmlRootElement(name = "school")
 @Entity(name = "school")

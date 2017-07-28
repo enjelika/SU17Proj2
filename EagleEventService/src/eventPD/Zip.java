@@ -1,4 +1,4 @@
-package schoolPD;
+package eventPD;
 
 import java.io.Serializable;
 

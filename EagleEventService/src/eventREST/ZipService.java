@@ -1,4 +1,4 @@
-package schoolREST;
+package eventREST;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,10 +19,10 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import schoolDAO.ZipDAO;
-import schoolPD.School;
-import schoolPD.Student;
-import schoolPD.Zip;
+import eventDAO.ZipDAO;
+import eventPD.School;
+import eventPD.Student;
+import eventPD.Zip;
 
 	@Path("/zipservice")
 	public class ZipService {

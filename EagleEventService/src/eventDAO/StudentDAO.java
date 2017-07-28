@@ -1,11 +1,11 @@
-package schoolDAO;
+package eventDAO;
 import java.util.List;
 
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import schoolPD.School;
-import schoolPD.Student;
+import eventPD.School;
+import eventPD.Student;
 
 public class StudentDAO { 
 

@@ -5,9 +5,6 @@ import systemPD.RoleAssignment;
 import systemPD.System;
 import systemPD.Token;
 import systemPD.User;
-import schoolDAO.EM;
-import schoolPD.Student;
-import schoolUT.Message;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +27,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+
+import eventDAO.EM;
+import eventPD.Student;
+import eventUT.Message;
 
 
 @Path("/systemservices")

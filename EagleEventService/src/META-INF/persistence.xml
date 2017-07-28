@@ -4,9 +4,9 @@
 	version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
 
     <persistence-unit name="School" transaction-type="RESOURCE_LOCAL">
-         <class>schoolPD.School</class>
-         <class>schoolPD.Student</class>
-         <class>schoolPD.Zip</class>
+         <class>eventPD.School</class>
+         <class>eventPD.Student</class>
+         <class>eventPD.Zip</class>
          <class>systemPD.Person</class>
          <class>systemPD.RoleAssignment</class>
          <class>systemPD.Token</class>

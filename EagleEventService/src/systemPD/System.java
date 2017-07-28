@@ -3,7 +3,7 @@ package systemPD;
 import java.util.Collection;
 import java.util.List;
 
-import schoolDAO.StudentDAO;
+import eventDAO.StudentDAO;
 import systemDAO.TokenDAO;
 import systemDAO.UserDAO;
 

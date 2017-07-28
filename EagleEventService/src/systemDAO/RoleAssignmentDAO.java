@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import schoolDAO.EM;
+import eventDAO.EM;
 import systemPD.RoleAssignment;
 
 public class RoleAssignmentDAO { 

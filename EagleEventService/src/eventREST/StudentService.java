@@ -1,4 +1,4 @@
-package schoolREST;
+package eventREST;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,12 +22,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
-import schoolDAO.EM;
-import schoolDAO.SchoolDAO;
-import schoolPD.School;
-import schoolPD.Student;
-import schoolUT.Log;
-import schoolUT.Message;
+import eventDAO.EM;
+import eventDAO.SchoolDAO;
+import eventPD.School;
+import eventPD.Student;
+import eventUT.Log;
+import eventUT.Message;
 import systemREST.Secured;
 
 

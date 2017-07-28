@@ -1,11 +1,11 @@
-package schoolDAO;
+package eventDAO;
 import java.util.List;
 
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import schoolPD.Student;
-import schoolPD.Zip;
+import eventPD.Student;
+import eventPD.Zip;
 
 public class ZipDAO { 
 

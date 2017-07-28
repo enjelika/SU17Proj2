@@ -1,4 +1,4 @@
-package schoolPD;
+package eventPD;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,10 +15,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import schoolDAO.EM;
-import schoolDAO.StudentDAO;
-import schoolUT.Log;
-import schoolUT.Message;
+import eventDAO.EM;
+import eventDAO.StudentDAO;
+import eventUT.Log;
+import eventUT.Message;
 
 
 @XmlRootElement(name = "student")
