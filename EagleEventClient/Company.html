@@ -17,13 +17,16 @@ input[type="text"] {
 <script>
 function getCurrentUser() {
 	$.ajax({
-	    url: "/EagleEventService/system/systemservices/company/",
+	    url: "/EagleEventService/event/eventservice/company/",
 	    type: 'GET',
 	    datatype: 'json',
 	    statusCode: {
 	    200: function( response ) {
 	
-			$('#userWelcome').html("Welcome, "+response.firstName+" "+response.lastName);
+			$('#companyName').val(response.name);
+			$('#companyAddress').val(response.address);
+			$('#companyEmail').val(response.email);
+			$('#companyPhone').val(response.phoneNumber);
 	    		},
 	    401:function( response ) {
 	    		$('#page-message').html("You must Login first");
