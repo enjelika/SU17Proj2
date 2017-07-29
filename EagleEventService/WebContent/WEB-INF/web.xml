@@ -6,7 +6,7 @@
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
     <init-param>
       <param-name>jersey.config.server.provider.packages</param-name>
-      <param-value>schoolREST;systemREST</param-value>
+      <param-value>eventREST;systemREST</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
@@ -21,8 +21,20 @@
       <param-value>systemREST</param-value>
     </init-param>
   </servlet>
+    <servlet>
+    <servlet-name>Event RESTful Application</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>eventREST</param-value>
+    </init-param>
+  </servlet>
   <servlet-mapping>
     <servlet-name>System RESTful Application</servlet-name>
     <url-pattern>/system/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>System RESTful Application</servlet-name>
+    <url-pattern>/event/*</url-pattern>
   </servlet-mapping>
 </web-app>

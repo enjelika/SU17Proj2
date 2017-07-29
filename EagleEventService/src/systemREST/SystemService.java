@@ -28,7 +28,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import eventDAO.CompanyDAO;
 import eventDAO.EM;
+import eventPD.Company;
 import eventPD.Student;
 import eventUT.Message;
 
@@ -84,6 +86,14 @@ public class SystemService  {
       userTransaction.commit();
       return token.getToken();
     }
+    
+	   @GET
+	   @Path("/company/")
+	   @Produces(MediaType.APPLICATION_JSON)
+	   public Company getCompany(){
+	      return (Company) (CompanyDAO.listCompany().get(0));
+	   }
+	 
     @Secured({Role.ADMIN})
     @GET
     @Path("/users")

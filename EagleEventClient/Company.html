@@ -14,6 +14,34 @@ input[type="text"] {
 </style>
 </head>
 <body> 
+<script>
+function getCurrentUser() {
+	$.ajax({
+	    url: "/EagleEventService/system/systemservices/company/",
+	    type: 'GET',
+	    datatype: 'json',
+	    statusCode: {
+	    200: function( response ) {
+	
+			$('#userWelcome').html("Welcome, "+response.firstName+" "+response.lastName);
+	    		},
+	    401:function( response ) {
+	    		$('#page-message').html("You must Login first");
+	    		},
+    	    405:function( response ) {
+	  	    	$('#page-message').html("Access to the page forbiden");
+	  	    	}
+	    },
+	    
+	    error: function(jqXHR, textStatus, errorThrown) {
+  	        console.log("error " + textStatus);
+  	        console.log("incoming Text " + jqXHR.responseText);}
+	  });   	
+}
+$(document).ready(function() {
+	getCurrentUser();
+});
+</script>
 <div>
 <ul class="nav">
 <img src="images/eagleEventPlanningLogo.png" alt="logo" height="100">
