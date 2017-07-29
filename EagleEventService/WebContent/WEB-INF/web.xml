@@ -14,7 +14,7 @@
 
       <param-name>jersey.config.server.provider.packages</param-name>
 
-      <param-value>schoolREST;systemREST</param-value>
+      <param-value>eventREST</param-value>
 
     </init-param>
 
@@ -24,7 +24,7 @@
 
     <servlet-name>School RESTful Application</servlet-name>
 
-    <url-pattern>/school/*</url-pattern>
+    <url-pattern>/event/*</url-pattern>
 
   </servlet-mapping>
 
