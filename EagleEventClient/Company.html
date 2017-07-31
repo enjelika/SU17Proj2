@@ -15,7 +15,7 @@ input[type="text"] {
 </head>
 <body> 
 <script>
-function getCurrentUser() {
+function getCompanyInfo() {
 	$.ajax({
 	    url: "/EagleEventService/event/eventservice/company/",
 	    type: 'GET',
@@ -29,10 +29,10 @@ function getCurrentUser() {
 			$('#companyPhone').val(response.phoneNumber);
 	    		},
 	    401:function( response ) {
-	    		$('#page-message').html("You must Login first");
+	    		//$('#page-message').html("You must Login first");
 	    		},
     	    405:function( response ) {
-	  	    	$('#page-message').html("Access to the page forbiden");
+	  	    	//$('#page-message').html("Access to the page forbiden");
 	  	    	}
 	    },
 	    
@@ -41,8 +41,41 @@ function getCurrentUser() {
   	        console.log("incoming Text " + jqXHR.responseText);}
 	  });   	
 }
+
 $(document).ready(function() {
-	getCurrentUser();
+	getCompanyInfo();
+	
+	$("#companyInformation").submit(function (e){
+		$.ajax({
+		    url: "/EagleEventService/event/eventservice/company/",
+		    type: 'POST',
+		    datatype: 'json',
+			contentType: "application/json",
+			data: '{'+  
+			'"address" :"'+ $('#companyAddress').val() +'",'+
+			'"companyId" :"'+ 1 +'",'+
+			'"email" : "'+$('#companyEmail').val() +'",'+
+			'"name" : "'+$('#companyName').val()+'",'+
+			'"phoneNumber" : "'+$('#companyPhone').val() +'"'+
+			"}",
+		    statusCode: {
+		    200: function( response ) {
+		    			alert('Company was successfully updated.')
+		    		},
+		    401:function( response ) {
+		    		//$('#page-message').html("You must Login first");
+		    		},
+	    	    405:function( response ) {
+		  	    	//$('#page-message').html("Access to the page forbiden");
+		  	    	}
+		    },
+		    
+		    error: function(jqXHR, textStatus, errorThrown) {
+	  	        console.log("error " + textStatus);
+	  	        console.log("incoming Text " + jqXHR.responseText);}
+		  }); 
+		e.preventDefault();
+	});
 });
 </script>
 <div>

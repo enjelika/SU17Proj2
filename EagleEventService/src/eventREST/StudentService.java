@@ -42,13 +42,6 @@ import systemREST.Secured;
 		
 		School school = (School) (SchoolDAO.listSchool().get(0));
 		Log log = new Log();
-		
-		   @GET
-		   @Path("/company/")
-		   @Produces(MediaType.APPLICATION_JSON)
-		   public Company getCompany(){
-		      return (Company) (CompanyDAO.listCompany().get(0));
-		   }
 		   
 		 @Secured
 	   @GET

@@ -48,10 +48,55 @@ import systemREST.Secured;
 		   @Path("/company/")
 		   @Produces(MediaType.APPLICATION_JSON)
 		   public Company getCompany(){
-		      return (Company) (CompanyDAO.listCompany().get(0));
+		      return company;
 		   }
 		 
-		 
+		   @POST
+		   @Path("/company")
+		   @Produces(MediaType.APPLICATION_JSON)
+		   @Consumes(MediaType.APPLICATION_JSON)
+		   public ArrayList<Message> UpdateCompany(Company updatedCompany,@Context final HttpServletResponse response) throws IOException{
+
+			  if (updatedCompany == null) {
+
+				  response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+				  try {
+				        response.flushBuffer();
+				  }catch(Exception e){}
+				  messages.add(new Message("op002","Fail Operation",""));
+				  return messages;
+			  }
+			  else  {
+				  
+				  EntityTransaction userTransaction = EM.getEM().getTransaction();
+				  userTransaction.begin();
+				  company.setAddress(updatedCompany.getAddress());
+				  company.setEmail(updatedCompany.getEmail());
+				  company.setName(updatedCompany.getName());
+				  company.setPhoneNumber(updatedCompany.getPhoneNumber());
+				  Boolean result = company.UpdateCompany(company);
+				  userTransaction.commit();
+				  if(result){
+					  messages.add(new Message("op001","Success Operation",""));
+					  return messages;
+				  }
+				  response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+				  try {
+					  response.flushBuffer();
+				  }	
+				  catch(Exception e){
+					  }
+				  messages.add(new Message("op002","Fail Operation",""));
+				  return messages;
+			  }
+		}
+		   
+		   @OPTIONS
+		   @Path("/company")
+		   @Produces(MediaType.APPLICATION_JSON)
+		   public String getSupportedOperations(){
+		      return "{ {'POST' : { 'description' : 'update company'}} {'GET' : {'description' : 'get company'}}}";
+		   }
 		
 }	
 	   
