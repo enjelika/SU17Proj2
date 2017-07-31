@@ -70,7 +70,7 @@ public class Company implements Serializable {
 	}
 	
 	public String getAddress() {
-		return name;
+		return address;
 	}
 	@XmlElement
 	public void setAddress(String address) {
@@ -79,7 +79,7 @@ public class Company implements Serializable {
 	}
 	
 	public String getEmail() {
-		return name;
+		return email;
 	}
 	@XmlElement
 	public void setEmail(String email) {
