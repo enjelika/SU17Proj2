@@ -1,0 +1,184 @@
+<!DOCTYPE HTML> 
+<html>
+<head>
+<script src="scripts/jquery.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+<title>Event Maintenance</title>
+<style>
+input[type="text"] {
+    font-size: 14px;
+    float: right;
+    width: 290px;
+}
+</style>
+<script type="text/javascript">
+function AddClicked()
+{
+	$("#addEvent").show();
+	$("#updateEvent").hide();
+	$("#removeEvent").hide();
+}
+
+function UpdateClicked()
+{
+	$("#addEvent").hide();
+	$("#updateEvent").show();
+	$("#removeEvent").hide();
+}
+function RemoveClicked()
+{
+	$("#addEvent").hide();
+	$("#updateEvent").hide();
+	$("#removeEvent").show();
+}
+</script>
+</head>
+<body> 
+<div>
+<ul class="nav">
+<img src="images/eagleEventPlanningLogo.png" alt="logo" height="100">
+<li><a href="EagleHome.html">Home</a></li>
+<li><a href="Company.html">Company</a></li>
+<li><a href="Customer.html">Customer</a></li>
+<li><a href="Event.html">Event</a></li>
+<li><a href="Staff.html">Staff</a></li>
+<li><a href="logout.html">Logout</a></li>
+</ul>
+</div>
+<div id="userWelcome"> </div>
+<h2>Event Maintenance</h2>
+<div class = "block-center">
+<div id="buttonArea" style="float: left;width: 250px;">
+		   <input type="image" src="images/eagleAddEventButton.png" height="auto" width="200" name="reset" value="Reset" style="float: right;" onclick="AddClicked()"><br>
+			<input type="image" src="images/eagleUpdateEventButton.png" height="auto" width="200" name="reset" value="Reset" style="float: right;" onclick="UpdateClicked()"> <br>
+		   	<input type="image" src="images/eagleRemoveEventButton.png" height="auto" width="200" name="reset" value="Reset" style="float: right;" onclick="RemoveClicked()"> <br>
+</div>
+<div id="eventInformation" class="generalArea" style="height: 300px;">
+<br>
+<div id="addEvent" style="display:none;">
+		<form id="eventAddInformation" method="post"> 
+		   Event Name:
+		   <input type="text" id="eventName" >
+		   <span id="eventNameErr" class="error">* </span>
+		   <br><br>
+		   Venue:
+		   <input type="text" id="venueName">
+		   <span id="venueNameErr" class="error">* </span>
+		   <br><br>
+		   Customer Name:
+		   <input type="text" id="customerName">
+		   <span id="customerNameErr" class=error">*</span>
+		   <br><br>
+		   Max Guests:
+		   <input type="number" id="maxGuests">
+		   <span id="maxGuestsErr" class=error">*</span>
+		   <br><br>
+		   # of Tables:
+		   <input type="number" id="numberOfTables">
+		   <span id="numberOfTablesErr" class=error">*</span>
+		   <br><br>
+		   Guest List File:
+		   <input type="file" id="guestListFile">
+		   <span id="guestListFileErr" class=error">*</span>
+		   <input type="image" src="images/eagleSelectButton.png" 
+		   		height="auto" width="200" name="select" value="Select"> 
+		   <input type="image" src="images/eagleLoadButton.png" 
+		   		height="auto" width="200" name="load" value="Load"> 
+		   <br><br>
+		   <div id="page-message" style="color: red"></div>
+		   		   <input type="image" src="images/eagleGenerateSeatingButton.png" 
+		   		height="auto" width="200" name="generateSeating" value="GenerateSeating"> 
+		   <input type="image" src="images/eaglePrintGuestListButton.png" 
+		   		height="auto" width="200" name="printGuests" value="PrintGuests"> 
+		   <input type="image" src="images/eaglePrintPlaceCardsButton.png" 
+		   		height="auto" width="200" name="printPlaceCards" value="PrintPlaceCards"> 
+		   <input type="image" src="images/eagleResetButton.png" 
+		   		height="auto" width="200" name="reset" value="Reset"> 
+		   <input type="image" src="images/eagleSaveButton.png" 
+		   		height="auto" width="200" name="save" value="Save"> 
+		</form></div>
+<div id="updateEvent" style="display:none;">
+<form id="eventUpdateInformation" method="post"> 
+		   Event Name:
+		   <input type="text" id="eventName" >
+		   <span id="eventNameErr" class="error">* </span>
+		   <br><br>
+		   Staff Name:
+		   <input type="text" id="staffName" >
+		   <span id="staffNameErr" class="error">* </span>
+		   <br><br>		   
+		   Customer Name:
+		   <input type="text" id="customerName">
+		   <span id="customerNameErr" class=error">*</span>
+		   <br><br>
+		   Guest List File:
+		   <input type="file" id="guestListFile">
+		   <span id="guestListFileErr" class=error">*</span>
+		   <input type="image" src="images/eagleSelectButton.png" 
+		   		height="auto" width="200" name="select" value="Select"> 
+		   <input type="image" src="images/eagleLoadButton.png" 
+		   		height="auto" width="200" name="load" value="Load"> 
+		   <br><br>
+		   
+		<!-- TODO: Maintain Tables & Maintain Guests hyperlinks  -->
+		
+		   <div id="page-message" style="color: red"></div>
+		   
+		   <input type="image" src="images/eagleRegenerateSeatingButton.png" 
+		   		height="auto" width="200" name="regenerateSeating" value="RegenerateSeating"> 
+		   <input type="image" src="images/eaglePrintGuestListButton.png" 
+		   		height="auto" width="200" name="printGuests" value="PrintGuests"> 
+		   <input type="image" src="images/eaglePrintPlaceCardsButton.png" 
+		   		height="auto" width="200" name="printPlaceCards" value="PrintPlaceCards">
+		   <input type="image" src="images/eagleDeleteButton.png" 
+		   		height="auto" width="200" name="delete" value="Delete"> 
+		   <input type="image" src="images/eagleResetButton.png" 
+		   		height="auto" width="200" name="reset" value="Reset"> 
+		   <input type="image" src="images/eagleSaveButton.png" 
+		   		height="auto" width="200" name="save" value="Save"> 
+		</form></div>
+<div id="removeCustomer" style="display:none;">
+<form id="eventRemoveInformation" method="post"> 
+		  Event Name:
+		   <input type="text" id="eventName" >
+		   <span id="eventNameErr" class="error">* </span>
+		   <br><br>
+		   Staff Name:
+		   <input type="text" id="staffName" >
+		   <span id="staffNameErr" class="error">* </span>
+		   <br><br>		   
+		   Customer Name:
+		   <input type="text" id="customerName">
+		   <span id="customerNameErr" class=error">*</span>
+		   <br><br>
+		   Guest List File:
+		   <input type="file" id="guestListFile">
+		   <span id="guestListFileErr" class=error">*</span>
+		   <input type="image" src="images/eagleSelectButton.png" 
+		   		height="auto" width="200" name="select" value="Select"> 
+		   <input type="image" src="images/eagleLoadButton.png" 
+		   		height="auto" width="200" name="load" value="Load"> 
+		   <br><br>
+		   
+		<!-- TODO: Maintain Tables & Maintain Guests hyperlinks  -->
+		
+		   <div id="page-message" style="color: red"></div>
+		   
+		   <input type="image" src="images/eagleRegenerateSeatingButton.png" 
+		   		height="auto" width="200" name="regenerateSeating" value="RegenerateSeating"> 
+		   <input type="image" src="images/eaglePrintGuestListButton.png" 
+		   		height="auto" width="200" name="printGuests" value="PrintGuests"> 
+		   <input type="image" src="images/eaglePrintPlaceCardsButton.png" 
+		   		height="auto" width="200" name="printPlaceCards" value="PrintPlaceCards">
+		   <input type="image" src="images/eagleDeleteButton.png" 
+		   		height="auto" width="200" name="delete" value="Delete"> 
+		   <input type="image" src="images/eagleResetButton.png" 
+		   		height="auto" width="200" name="reset" value="Reset"> 
+		   <input type="image" src="images/eagleSaveButton.png" 
+		   		height="auto" width="200" name="save" value="Save"> 
+		</form></div></div>
+</div>
+
+</body>
+</html>
