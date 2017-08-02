@@ -11,9 +11,6 @@ public class CompanyDAO {
     public static void saveCompany(Company company) {
         EM.getEM().persist(company);
       }
-      public static void addSchool(Company company) {
-        EM.getEM().persist(company);
-      }
 
       public static List<Company> listCompany()
       {

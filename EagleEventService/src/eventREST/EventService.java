@@ -23,9 +23,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
 import eventDAO.CompanyDAO;
+import eventDAO.CustomerDAO;
 import eventDAO.EM;
 import eventDAO.SchoolDAO;
 import eventPD.Company;
+import eventPD.Customer;
 import eventPD.School;
 import eventPD.Student;
 import eventUT.Log;
@@ -90,6 +92,31 @@ import systemREST.Secured;
 				  return messages;
 			  }
 		}
+		   
+		   @POST
+		   @Path("/customer")
+		   @Produces(MediaType.APPLICATION_JSON)
+		   public ArrayList<Message> addCustomer(Customer customer,@Context final HttpServletResponse response) throws IOException{
+			   
+			   if (customer == null) {
+
+					  response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+					  try {
+					        response.flushBuffer();
+					  }catch(Exception e){}
+					  messages.add(new Message("op002","Fail Operation",""));
+					  return messages;
+				  }
+				  else  {
+					  
+					  EntityTransaction userTransaction = EM.getEM().getTransaction();
+					  userTransaction.begin();
+					  CustomerDAO.addCustomer(customer);
+					  userTransaction.commit();
+					  messages.add(new Message("op001","Success Operation",""));
+					  return messages;
+				  }
+		   }
 		   
 		   @OPTIONS
 		   @Path("/company")
