@@ -145,7 +145,7 @@ import systemREST.Secured;
 		   }
 		   
 		   @OPTIONS
-		   @Path("/company")
+		   @Path("/{a:company|customer}")
 		   @Produces(MediaType.APPLICATION_JSON)
 		   public String getSupportedOperations(){
 		      return "{ {'POST' : { 'description' : 'update company'}} {'GET' : {'description' : 'get company'}}}";

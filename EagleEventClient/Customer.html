@@ -32,6 +32,38 @@ function RemoveClicked()
 	$("#updateCustomer").hide();
 	$("#removeCustomer").show();
 }
+
+$(document).ready(function() {
+	
+	$("#customerAddInformation").submit(function (e){
+		$.ajax({
+		    url: "/EagleEventService/event/eventservice/customer/",
+		    type: 'POST',
+		    datatype: 'json',
+			contentType: "application/json",
+			data: '{'+  
+			'"email" : "'+$('#addCustomerEmail').val() +'",'+
+			'"name" : "'+$('#addCustomerName').val() +'"'+
+			"}",
+		    statusCode: {
+		    200: function( response ) {
+		    			alert('Customer was successfully added.')
+		    		},
+		    401:function( response ) {
+		    		//$('#page-message').html("You must Login first");
+		    		},
+	    	    405:function( response ) {
+		  	    	//$('#page-message').html("Access to the page forbiden");
+		  	    	}
+		    },
+		    
+		    error: function(jqXHR, textStatus, errorThrown) {
+	  	        console.log("error " + textStatus);
+	  	        console.log("incoming Text " + jqXHR.responseText);}
+		  }); 
+		e.preventDefault();
+	});
+});
 </script>
 </head>
 <body> 
@@ -41,7 +73,7 @@ function RemoveClicked()
 <li><a href="EagleHome.html">Home</a></li>
 <li><a href="Company.html">Company</a></li>
 <li><a href="Customer.html">Customer</a></li>
-<li><a href="Event.html">Event</a></li>
+<li><a href="logout.html">Event</a></li>
 <li><a href="Staff.html">Staff</a></li>
 <li><a href="logout.html">Logout</a></li>
 </ul>
@@ -59,11 +91,11 @@ function RemoveClicked()
 <div id="addCustomer" style="display:none;">
 		<form id="customerAddInformation" method="post"> 
 		   Customer Name:
-		   <input type="text" id="customerName" >
+		   <input type="text" id="addCustomerName" >
 		   <span id="customerNameErr" class="error">* </span>
 		   <br><br>
 		   Email:
-		   <input type="text" id="customerEmail">
+		   <input type="text" id="addCustomerEmail">
 		   <span id="customerEmailErr" class="error">* </span>
 		   <br><br>
 		   <div id="page-message" style="color: red"></div>
@@ -99,6 +131,5 @@ function RemoveClicked()
 		   		height="auto" width="200" name="delete" value="Delete"> 
 		</form></div></div>
 </div>
-
 </body>
 </html>
