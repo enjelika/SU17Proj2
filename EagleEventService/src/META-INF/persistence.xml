@@ -6,6 +6,7 @@
     <persistence-unit name="School" transaction-type="RESOURCE_LOCAL">
          <class>eventPD.Company</class>
          <class>eventPD.Customer</class>
+         <class>eventPD.Guest</class>
          <class>systemPD.Person</class>
          <class>systemPD.RoleAssignment</class>
          <class>systemPD.Token</class>
