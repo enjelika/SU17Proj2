@@ -50,9 +50,35 @@ import systemREST.Secured;
 		   @Path("/company/")
 		   @Produces(MediaType.APPLICATION_JSON)
 		   public Company getCompany(){
+			   
+			  // I put some codes here just for testing purpose
+			  // TODO: Obtain a guests list
+			   
+			  // Store the result combination list 
+			  permute(java.util.Arrays.asList("Blake","Thinh","Debra","Trung","Shane"), 0);
+			  
+			  // TODO: Add logic to assign guest into each table depend on the size of the table
+			  // TODO: Add logic to check the constrains for each table
+			  // TODO: Save the correct arrangement and break the loop
+			  
 		      return company;
 		   }
 		 
+		   // Do permutation to find all guest combinations
+		   public static void permute(List<String> arr, int startIndex) 
+		   {
+			   for(int index = startIndex; index < arr.size(); index++)
+			   {
+		            java.util.Collections.swap(arr, index, startIndex);
+		            permute(arr, startIndex+1);
+		            java.util.Collections.swap(arr, startIndex, index);
+			   }
+			   if (startIndex == arr.size() -1){
+				   // TODO: Store each result into a list
+		            System.out.println(java.util.Arrays.toString(arr.toArray()));
+			   }
+		   }
+		   
 		   @POST
 		   @Path("/company")
 		   @Produces(MediaType.APPLICATION_JSON)
