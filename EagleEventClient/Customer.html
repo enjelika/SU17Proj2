@@ -60,11 +60,13 @@ function getCustomers() {
 	  });   	
 }
 
+var updateDataItem;
+
 function updateSelect(e)
 {
 	if (e.item) {
-		var dataItem = this.dataItem(e.item);
-		$('#updateCustomerEmail').val(dataItem.email);
+		updateDataItem = this.dataItem(e.item);
+		$('#updateCustomerEmail').val(updateDataItem.email);
 	}
 }
 
@@ -105,6 +107,36 @@ $(document).ready(function() {
 		    		},
 	    	    405:function( response ) {
 		  	    	//$('#page-message').html("Access to the page forbiden");
+		  	    	}
+		    },
+		    
+		    error: function(jqXHR, textStatus, errorThrown) {
+	  	        console.log("error " + textStatus);
+	  	        console.log("incoming Text " + jqXHR.responseText);}
+		  }); 
+		e.preventDefault();
+	});
+	
+	$("#customerUpdateInformation").submit(function (e){
+		$.ajax({
+		    url: "/EagleEventService/event/eventservice/customer/",
+		    type: 'POST',
+		    datatype: 'json',
+			contentType: "application/json",
+			data: '{'+  
+			'"customer_id" :"'+ updateDataItem.customerId +'",'+
+			'"email" : "'+ $('#updateCustomerEmail').val() +'",'+
+			'"name" : "'+ updateDataItem.name +'"'+
+			"}",
+		    statusCode: {
+		    200: function( response ) {
+		    			alert('Company was successfully updated.')
+		    		},
+		    401:function( response ) {
+		    		//$('#page-message').html("You must Login first");
+		    		},
+	    	    405:function( response ) {
+		  	    	//$('#page-message').html("Access to the page forbidden");
 		  	    	}
 		    },
 		    

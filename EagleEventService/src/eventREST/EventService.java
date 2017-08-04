@@ -151,6 +151,32 @@ import systemREST.Secured;
 				  }
 		   }
 		   
+		   @POST
+		   @Path("/customer")
+		   @Produces(MediaType.APPLICATION_JSON)
+		   @Consumes(MediaType.APPLICATION_JSON)
+		   public ArrayList<Message> UpdateCustomer(Customer updatedCustomer,@Context final HttpServletResponse response) throws IOException{
+
+			  if (updatedCustomer == null) {
+
+				  response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+				  try {
+				        response.flushBuffer();
+				  }catch(Exception e){}
+				  messages.add(new Message("op002","Fail Operation",""));
+				  return messages;
+			  }
+			  else  {
+				  
+				  EntityTransaction userTransaction = EM.getEM().getTransaction();
+				  userTransaction.begin();
+				  CustomerDAO.saveCustomer(updatedCustomer);
+				  userTransaction.commit();
+				  messages.add(new Message("op001","Success Operation",""));
+				  return messages;
+			  }
+		}
+		   
 		   @OPTIONS
 		   @Path("/{a:company|customer}")
 		   @Produces(MediaType.APPLICATION_JSON)
