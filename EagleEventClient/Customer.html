@@ -1,10 +1,14 @@
-<!DOCTYPE HTML> 
+<!DOCTYPE html>
 <html>
 <head>
-<script src="scripts/jquery.min.js"></script>
+<title>Customer Maintenance</title>
 
 <link rel="stylesheet" type="text/css" href="style.css">
-<title>Customer Maintenance</title>
+<link rel="stylesheet" type="text/css" href="Styles/kendo.common.min.css">
+<link rel="stylesheet" type="text/css" href="Styles/kendo.default.min.css">
+<link rel="stylesheet" type="text/css" href="Styles/kendo.default.mobile.min.css">
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/kendo.all.min.js"></script>
 <style>
 input[type="text"] {
     font-size: 14px;
@@ -33,8 +37,55 @@ function RemoveClicked()
 	$("#removeCustomer").show();
 }
 
+function getCustomers() {
+	$.ajax({
+	    url: "/EagleEventService/event/eventservice/customer/",
+	    type: 'GET',
+	    datatype: 'json',
+	    statusCode: {
+	    200: function( response ) {
+					var test = "";
+	    		},
+	    401:function( response ) {
+
+	    		},
+    	    405:function( response ) {
+
+	  	    	}
+	    },
+	    
+	    error: function(jqXHR, textStatus, errorThrown) {
+  	        console.log("error " + textStatus);
+  	        console.log("incoming Text " + jqXHR.responseText);}
+	  });   	
+}
+
+function updateSelect(e)
+{
+	if (e.item) {
+		var dataItem = this.dataItem(e.item);
+		$('#updateCustomerEmail').val(dataItem.email);
+	}
+}
+
 $(document).ready(function() {
 	
+	
+    $("#updateCustomerName").kendoDropDownList({
+        dataTextField: "name",
+        dataValueField: "customerId",
+        select: updateSelect,
+       	dataSource: {
+               transport: {
+                   read: {
+                       dataType: "json",
+                       url: "/EagleEventService/event/eventservice/customer/",
+                   }
+               }
+           }
+    });
+   
+    
 	$("#customerAddInformation").submit(function (e){
 		$.ajax({
 		    url: "/EagleEventService/event/eventservice/customer/",
@@ -107,12 +158,10 @@ $(document).ready(function() {
 <div id="updateCustomer" style="display:none;">
 <form id="customerUpdateInformation" method="post"> 
 		   Customer Name:
-		   <input type="text" id="customerName" >
-		   <span id="customerNameErr" class="error">* </span>
+		   <input id="updateCustomerName" >
 		   <br><br>
 		   Email:
-		   <input type="text" id="customerEmail">
-		   <span id="customerEmailErr" class="error">* </span>
+		   <input type="text" id="updateCustomerEmail">
 		   <br><br>
 		   <div id="page-message" style="color: red"></div>
 		   <input type="image" src="images/eagleResetButton.png" 

@@ -119,6 +119,13 @@ import systemREST.Secured;
 			  }
 		}
 		   
+		   @GET
+		   @Path("/customer")
+		   @Produces(MediaType.APPLICATION_JSON)
+		   public List<Customer> getCustomers(){
+			   return (CustomerDAO.listCustomer());
+		   }	
+		   
 		   @POST
 		   @Path("/customer")
 		   @Produces(MediaType.APPLICATION_JSON)
