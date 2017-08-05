@@ -20,8 +20,8 @@ public class CustomerDAO {
       {
         String qString = "SELECT customer FROM customer customer  WHERE customer.customer_id ="+idNumber;
         Query query = EM.getEM().createQuery(qString);
-        Customer student = (Customer)query.getSingleResult();
-        return student;
+        Customer customer = (Customer)query.getSingleResult();
+        return customer;
       }
 
       public static List<Customer> listCustomer()

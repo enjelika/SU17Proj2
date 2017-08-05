@@ -21,8 +21,8 @@ public class StaffDAO {
       {
         String qString = "SELECT staff FROM staff staff  WHERE staff.staff_id ="+idNumber;
         Query query = EM.getEM().createQuery(qString);
-        Staff student = (Staff)query.getSingleResult();
-        return student;
+        Staff staff = (Staff)query.getSingleResult();
+        return staff;
       }
 
       public static List<Staff> listStaff()
