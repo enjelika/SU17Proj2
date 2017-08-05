@@ -188,7 +188,7 @@ import systemREST.Secured;
 	   @Path("/students")
 	   @Produces(MediaType.APPLICATION_JSON)
 	   public String getSupportedOperations(){
-	      return "{ {'POST' : { 'description' : 'add a student'}} {'GET' : {'description' : 'get a students'}}}";
+	      return "{ {'POST' : { 'description' : 'add'}} {'GET' : {'description' : 'get'}} {'PUT' : {'description' : 'put'}}}";
 	   }
 }	
 	   

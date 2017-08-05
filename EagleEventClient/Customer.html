@@ -77,6 +77,15 @@ $(document).ready(function() {
         dataTextField: "name",
         dataValueField: "customerId",
         select: updateSelect,
+        cascade: function(e)
+        {
+        	var dropdownlist = $("#updateCustomerName").data("kendoDropDownList");
+
+        	// get the dataItem corresponding to the selectedIndex.
+        	var dataItem = dropdownlist.dataItem();
+
+        	$('#updateCustomerEmail').val(dataItem.email);
+        },
        	dataSource: {
                transport: {
                    read: {
@@ -119,8 +128,8 @@ $(document).ready(function() {
 	
 	$("#customerUpdateInformation").submit(function (e){
 		$.ajax({
-		    url: "/EagleEventService/event/eventservice/customer/",
-		    type: 'POST',
+		    url: "/EagleEventService/event/eventservice/customer/" + updateDataItem.customerId,
+		    type: 'PUT',
 		    datatype: 'json',
 			contentType: "application/json",
 			data: '{'+  
@@ -130,7 +139,7 @@ $(document).ready(function() {
 			"}",
 		    statusCode: {
 		    200: function( response ) {
-		    			alert('Company was successfully updated.')
+		    			alert('Customer was successfully updated.')
 		    		},
 		    401:function( response ) {
 		    		//$('#page-message').html("You must Login first");

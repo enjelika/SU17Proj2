@@ -151,11 +151,11 @@ import systemREST.Secured;
 				  }
 		   }
 		   
-		   @POST
-		   @Path("/customer")
+		   @PUT
+		   @Path("/customer/{id}")
 		   @Produces(MediaType.APPLICATION_JSON)
 		   @Consumes(MediaType.APPLICATION_JSON)
-		   public ArrayList<Message> UpdateCustomer(Customer updatedCustomer,@Context final HttpServletResponse response) throws IOException{
+		   public ArrayList<Message> UpdateCustomer(Customer updatedCustomer,@PathParam("id") String id,@Context final HttpServletResponse response) throws IOException{
 
 			  if (updatedCustomer == null) {
 
@@ -170,7 +170,9 @@ import systemREST.Secured;
 				  
 				  EntityTransaction userTransaction = EM.getEM().getTransaction();
 				  userTransaction.begin();
-				  CustomerDAO.saveCustomer(updatedCustomer);
+				  Customer existingCustomer = CustomerDAO.findCustomerByIdNumber(id);
+				  existingCustomer.setEmail(updatedCustomer.getEmail());
+				  CustomerDAO.saveCustomer(existingCustomer);
 				  userTransaction.commit();
 				  messages.add(new Message("op001","Success Operation",""));
 				  return messages;
@@ -181,7 +183,7 @@ import systemREST.Secured;
 		   @Path("/{a:company|customer}")
 		   @Produces(MediaType.APPLICATION_JSON)
 		   public String getSupportedOperations(){
-		      return "{ {'POST' : { 'description' : 'update company'}} {'GET' : {'description' : 'get company'}}}";
+		      return "{ {'POST' : { 'description' : 'update company'}} {'GET' : {'description' : 'get company'}} {'PUT' : {'description' : 'put'}}";
 		   }
 		
 }	
