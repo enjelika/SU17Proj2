@@ -22,8 +22,10 @@ import javax.ws.rs.core.SecurityContext;
 import eventDAO.CompanyDAO;
 import eventDAO.CustomerDAO;
 import eventDAO.EM;
+import eventDAO.StaffDAO;
 import eventPD.Company;
 import eventPD.Customer;
+import eventPD.Staff;
 import eventUT.Log;
 import eventUT.Message;
 
@@ -199,8 +201,95 @@ import eventUT.Message;
 			  }
 		}
 		   
+		   @GET
+		   @Path("/staff")
+		   @Produces(MediaType.APPLICATION_JSON)
+		   public List<Staff> getStaff(){
+			   return (StaffDAO.listStaff());
+		   }	
+		   
+		   @POST
+		   @Path("/staff")
+		   @Produces(MediaType.APPLICATION_JSON)
+		   public ArrayList<Message> addStaff(Staff staff,@Context final HttpServletResponse response) throws IOException{
+			   
+			   if (staff == null) {
+
+					  response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+					  try {
+					        response.flushBuffer();
+					  }catch(Exception e){}
+					  messages.add(new Message("op002","Fail Operation",""));
+					  return messages;
+				  }
+				  else  {
+					  
+					  EntityTransaction userTransaction = EM.getEM().getTransaction();
+					  userTransaction.begin();
+					  StaffDAO.addStaff(staff);
+					  userTransaction.commit();
+					  messages.add(new Message("op001","Success Operation",""));
+					  return messages;
+				  }
+		   }
+		   
+		   @PUT
+		   @Path("/staff/{id}")
+		   @Produces(MediaType.APPLICATION_JSON)
+		   @Consumes(MediaType.APPLICATION_JSON)
+		   public ArrayList<Message> UpdateStaff(Staff updatedStaff,@PathParam("id") String id,@Context final HttpServletResponse response) throws IOException{
+
+			  if (updatedStaff == null) {
+
+				  response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+				  try {
+				        response.flushBuffer();
+				  }catch(Exception e){}
+				  messages.add(new Message("op002","Fail Operation",""));
+				  return messages;
+			  }
+			  else  {
+				  
+				  EntityTransaction userTransaction = EM.getEM().getTransaction();
+				  userTransaction.begin();
+				  Staff existingStaff = StaffDAO.findStaffByIdNumber(id);
+				  existingStaff.setEmail(updatedStaff.getEmail());
+				  StaffDAO.saveStaff(existingStaff);
+				  userTransaction.commit();
+				  messages.add(new Message("op001","Success Operation",""));
+				  return messages;
+			  }
+		}
+		   
+		   @DELETE
+		   @Path("/staff/{id}")
+		   @Produces(MediaType.APPLICATION_JSON)
+		   @Consumes(MediaType.APPLICATION_JSON)
+		   public ArrayList<Message> DeleteStaff(Staff deleteStaff,@PathParam("id") String id,@Context final HttpServletResponse response) throws IOException{
+
+			  if (deleteStaff == null) {
+
+				  response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+				  try {
+				        response.flushBuffer();
+				  }catch(Exception e){}
+				  messages.add(new Message("op002","Fail Operation",""));
+				  return messages;
+			  }
+			  else  {
+				  
+				  EntityTransaction userTransaction = EM.getEM().getTransaction();
+				  userTransaction.begin();
+				  Staff existingStaff = StaffDAO.findStaffByIdNumber(id);
+				  StaffDAO.removeStaff(existingStaff);
+				  userTransaction.commit();
+				  messages.add(new Message("op001","Success Operation",""));
+				  return messages;
+			  }
+		}
+		   
 		   @OPTIONS
-		   @Path("/{a:company|customer}")
+		   @Path("/{a:company|customer|staff}")
 		   @Produces(MediaType.APPLICATION_JSON)
 		   public String getSupportedOperations(){
 		      return "{ {'POST' : { 'description' : 'update company'}} {'GET' : {'description' : 'get company'}} {'PUT' : {'description' : 'put'}} {'DELETE' : {'description' : 'delete'}}}";

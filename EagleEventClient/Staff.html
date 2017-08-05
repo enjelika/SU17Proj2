@@ -1,10 +1,14 @@
-<!DOCTYPE HTML> 
+<!DOCTYPE html>
 <html>
 <head>
-<script src="scripts/jquery.min.js"></script>
+<title>Staff Maintenance</title>
 
 <link rel="stylesheet" type="text/css" href="style.css">
-<title>Staff Maintenance</title>
+<link rel="stylesheet" type="text/css" href="Styles/kendo.common.min.css">
+<link rel="stylesheet" type="text/css" href="Styles/kendo.default.min.css">
+<link rel="stylesheet" type="text/css" href="Styles/kendo.default.mobile.min.css">
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/kendo.all.min.js"></script>
 <style>
 input[type="text"] {
     font-size: 14px;
@@ -15,23 +19,215 @@ input[type="text"] {
 <script type="text/javascript">
 function AddClicked()
 {
-	$("#addCustomer").show();
-	$("#updateCustomer").hide();
-	$("#removeCustomer").hide();
+	$("#addStaff").show();
+	$("#updateStaff").hide();
+	$("#removeStaff").hide();
 }
 
 function UpdateClicked()
 {
-	$("#addCustomer").hide();
-	$("#updateCustomer").show();
-	$("#removeCustomer").hide();
+	$("#addStaff").hide();
+	$("#updateStaff").show();
+	$("#removeStaff").hide();
 }
 function RemoveClicked()
 {
-	$("#addCustomer").hide();
-	$("#updateCustomer").hide();
-	$("#removeCustomer").show();
+	$("#addStaff").hide();
+	$("#updateStaff").hide();
+	$("#removeStaff").show();
 }
+
+function getStaffs() {
+	$.ajax({
+	    url: "/EagleEventService/event/eventservice/staff/",
+	    type: 'GET',
+	    datatype: 'json',
+	    statusCode: {
+	    200: function( response ) {
+					var test = "";
+	    		},
+	    401:function( response ) {
+
+	    		},
+    	    405:function( response ) {
+
+	  	    	}
+	    },
+	    
+	    error: function(jqXHR, textStatus, errorThrown) {
+  	        console.log("error " + textStatus);
+  	        console.log("incoming Text " + jqXHR.responseText);}
+	  });   	
+}
+
+var updateDataItem;
+
+function updateSelect(e)
+{
+	if (e.item) {
+		updateDataItem = this.dataItem(e.item);
+		$('#updateStaffEmail').val(updateDataItem.email);
+	}
+}
+
+var removeDataItem;
+
+function removeSelect(e)
+{
+	if (e.item) {
+		removeDataItem = this.dataItem(e.item);
+	}
+}
+
+function Refresh()
+{
+	var dropdownlist1 = $("#updateStaffName").data("kendoDropDownList");
+	dropdownlist1.refresh();	
+	var dropdownlist2 = $("#removeStaffName").data("kendoDropDownList");
+	dropdownlist2.refresh();	
+}
+
+
+$(document).ready(function() {
+	
+	var dataSource = new kendo.data.DataSource({
+		  transport: { 
+		    read: { 
+		      url: "/EagleEventService/event/eventservice/staff/", 
+		      dataType: "json"
+		    }
+		  }
+		});
+	
+    $("#updateStaffName").kendoDropDownList({
+        dataTextField: "name",
+        dataValueField: "staffId",
+        select: updateSelect,
+        cascade: function(e)
+        {
+        	var dropdownlist = $("#updateStaffName").data("kendoDropDownList");
+
+        	if(dropdownlist.selectedIndex != -1)
+        		{
+        	// get the dataItem corresponding to the selectedIndex.
+        	updateDataItem = dropdownlist.dataItem();
+
+        	$('#updateStaffEmail').val(updateDataItem.email);
+        		}
+        },
+       	dataSource: dataSource
+    });
+    
+    $("#removeStaffName").kendoDropDownList({
+        dataTextField: "name",
+        dataValueField: "staffId",
+        select: removeSelect,
+        cascade: function(e)
+        {
+        	var dropdownlist = $("#removeStaffName").data("kendoDropDownList");
+
+        	// get the dataItem corresponding to the selectedIndex.
+        	removeDataItem = dropdownlist.dataItem();
+        },
+       	dataSource: dataSource
+    });
+   
+    
+	$("#staffAddInformation").submit(function (e){
+		$.ajax({
+		    url: "/EagleEventService/event/eventservice/staff/",
+		    type: 'POST',
+		    datatype: 'json',
+			contentType: "application/json",
+			data: '{'+  
+			'"email" : "'+$('#addStaffEmail').val() +'",'+
+			'"name" : "'+$('#addStaffName').val() +'"'+
+			"}",
+		    statusCode: {
+		    200: function( response ) {
+		    			dataSource.read();
+		    			Refresh();
+		    			alert('Staff was successfully added.');
+		    		},
+		    401:function( response ) {
+		    		//$('#page-message').html("You must Login first");
+		    		},
+	    	    405:function( response ) {
+		  	    	//$('#page-message').html("Access to the page forbiden");
+		  	    	}
+		    },
+		    
+		    error: function(jqXHR, textStatus, errorThrown) {
+	  	        console.log("error " + textStatus);
+	  	        console.log("incoming Text " + jqXHR.responseText);}
+		  }); 
+		e.preventDefault();
+	});
+	
+	$("#staffUpdateInformation").submit(function (e){
+		$.ajax({
+		    url: "/EagleEventService/event/eventservice/staff/" + updateDataItem.staffId,
+		    type: 'PUT',
+		    datatype: 'json',
+			contentType: "application/json",
+			data: '{'+  
+			'"staff_id" :"'+ updateDataItem.staffId +'",'+
+			'"email" : "'+ $('#updateStaffEmail').val() +'",'+
+			'"name" : "'+ updateDataItem.name +'"'+
+			"}",
+		    statusCode: {
+		    200: function( response ) {
+		    			dataSource.read();
+		    			Refresh();
+		    			alert('Staff was successfully updated.');
+		    		},
+		    401:function( response ) {
+		    		//$('#page-message').html("You must Login first");
+		    		},
+	    	    405:function( response ) {
+		  	    	//$('#page-message').html("Access to the page forbidden");
+		  	    	}
+		    },
+		    
+		    error: function(jqXHR, textStatus, errorThrown) {
+	  	        console.log("error " + textStatus);
+	  	        console.log("incoming Text " + jqXHR.responseText);}
+		  }); 
+		e.preventDefault();
+	});
+	
+	$("#staffRemoveInformation").submit(function (e){
+		$.ajax({
+		    url: "/EagleEventService/event/eventservice/staff/" + updateDataItem.staffId,
+		    type: 'DELETE',
+		    datatype: 'json',
+			contentType: "application/json",
+			data: '{'+  
+			'"staff_id" :"'+ removeDataItem.staffId +'",'+
+			'"email" : "'+ removeDataItem.email +'",'+
+			'"name" : "'+ removeDataItem.name +'"'+
+			"}",
+		    statusCode: {
+		    200: function( response ) {
+		    			dataSource.read();
+		    			Refresh();
+		    			alert('Staff was successfully removed.');
+		    		},
+		    401:function( response ) {
+		    		//$('#page-message').html("You must Login first");
+		    		},
+	    	    405:function( response ) {
+		  	    	//$('#page-message').html("Access to the page forbidden");
+		  	    	}
+		    },
+		    
+		    error: function(jqXHR, textStatus, errorThrown) {
+	  	        console.log("error " + textStatus);
+	  	        console.log("incoming Text " + jqXHR.responseText);}
+		  }); 
+		e.preventDefault();
+	});
+});
 </script>
 </head>
 <body> 
@@ -40,7 +236,7 @@ function RemoveClicked()
 <img src="images/eagleEventPlanningLogo.png" alt="logo" height="100">
 <li><a href="EagleHome.html">Home</a></li>
 <li><a href="Company.html">Company</a></li>
-<li><a href="Customer.html">Customer</a></li>
+<li><a href="Staff.html">Staff</a></li>
 <li><a href="Event.html">Event</a></li>
 <li><a href="Staff.html">Staff</a></li>
 <li><a href="logout.html">Logout</a></li>
@@ -54,15 +250,17 @@ function RemoveClicked()
 			<input type="image" src="images/eagleUpdateStaffButton.png" height="auto" width="200" name="reset" value="Reset" style="float: right;" onclick="UpdateClicked()"> <br>
 		   	<input type="image" src="images/eagleRemoveStaffButton.png" height="auto" width="200" name="reset" value="Reset" style="float: right;" onclick="RemoveClicked()"> <br>
 </div>
-<div id="customerInformation" class="generalArea" style="height: 300px;">
+<div id="staffInformation" class="generalArea" style="height: 300px;">
 <br>
 <div id="addStaff" style="display:none;">
 		<form id="staffAddInformation" method="post"> 
 		   Staff Name:
-		   <input type="text" id="staffName" >
+		   <input type="text" id="addStaffName" >
+		   <span id="staffNameErr" class="error">* </span>
 		   <br><br>
 		   Email:
-		   <input type="text" id="staffEmail">
+		   <input type="text" id="addStaffEmail">
+		   <span id="staffEmailErr" class="error">* </span>
 		   <br><br>
 		   <div id="page-message" style="color: red"></div>
 		   <input type="image" src="images/eagleResetButton.png" 
@@ -70,15 +268,13 @@ function RemoveClicked()
 		   <input type="image" src="images/eagleSaveButton.png" 
 		   		height="auto" width="200" name="save" value="Save"> 
 		</form></div>
-<div id="updateCustomer" style="display:none;">
-<form id="customerUpdateInformation" method="post"> 
+<div id="updateStaff" style="display:none;">
+<form id="staffUpdateInformation" method="post"> 
 		   Staff Name:
-		   <input type="text" id="customerName" >
-		   <span id="customerNameErr" class="error">* </span>
+		   <input id="updateStaffName" >
 		   <br><br>
 		   Email:
-		   <input type="text" id="customerEmail">
-		   <span id="customerEmailErr" class="error">* </span>
+		   <input type="text" id="updateStaffEmail">
 		   <br><br>
 		   <div id="page-message" style="color: red"></div>
 		   <input type="image" src="images/eagleResetButton.png" 
@@ -86,11 +282,10 @@ function RemoveClicked()
 		   <input type="image" src="images/eagleSaveButton.png" 
 		   		height="auto" width="200" name="save" value="Save"> 
 		</form></div>
-<div id="removeCustomer" style="display:none;">
-<form id="customerRemoveInformation" method="post"> 
+<div id="removeStaff" style="display:none;">
+<form id="staffRemoveInformation" method="post"> 
 		   Staff Name:
-		   <input type="text" id="customerName" >
-		   <span id="customerNameErr" class="error">* </span>
+		   <input id="removeStaffName" >
 		   <br><br>
 		   <div id="page-message" style="color: red"></div>
 		   <input type="image" src="images/eagleRemoveStaffButton.png" 
