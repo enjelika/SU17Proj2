@@ -1,0 +1,71 @@
+<!DOCTYPE HTML> 
+<html>
+<head>
+<script src="scripts/jquery.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+<title>Event: Maintain Guests</title> <!-- TODO: Get Event Name for Title -->
+<style>
+input[type="text"] {
+    font-size: 14px;
+    float: right;
+    width: 290px;
+}
+</style>
+<script type="text/javascript">
+function BackClicked()
+{
+	var url = "//localhost/EagleEventClient/Event.html"; 
+    window.location(url); // TODO: Fix this.  Redirect not working
+}
+
+function ResetClicked()
+{
+	$("#resetEvent").show();
+	$("#saveEvent").hide();
+}
+function SaveClicked()
+{
+	$("#resetEvent").hide();
+	$("#saveEvent").show();
+}
+</script>
+</head>
+<body> 
+<div>
+<ul class="nav">
+<img src="images/eagleEventPlanningLogo.png" alt="logo" height="100">
+<li><a href="EagleHome.html">Home</a></li>
+<li><a href="Company.html">Company</a></li>
+<li><a href="Customer.html">Customer</a></li>
+<li><a href="Event.html">Event</a></li>
+<li><a href="Staff.html">Staff</a></li>
+<li><a href="logout.html">Logout</a></li>
+</ul>
+</div>
+<div id="userWelcome"> </div>
+<h2>Event: Maintain Guests</h2> <!-- TODO: Get Event Name for h2 -->
+<div class = "block-center">
+<div id="buttonArea" style="float: left;width: 250px;">
+		<input type="image" src="images/eagleBackButton.png" height="auto" width="200" name="reset" value="Reset" style="float: right;" onclick="BackClicked()"><br>
+		<input type="image" src="images/eagleResetEventButton.png" height="auto" width="200" name="reset" value="Reset" style="float: right;" onclick="ResetClicked()"> <br>
+		<input type="image" src="images/eagleSaveEventButton.png" height="auto" width="200" name="reset" value="Reset" style="float: right;" onclick="SaveClicked()"> <br>
+</div>
+<div id="eventInformation" class="generalArea" style="height: 300px;">
+<br>
+<div id="ResetEvent" style="display:none;">
+<form id="eventResetTableInformation" method="post"> 
+		   
+		<!-- TODO: Generate Table/Grid from Event max table information -->   
+		   
+		</form></div>
+<div id="saveCustomer" style="display:none;">
+<form id="eventSaveTableInformation" method="post"> 
+		
+		<!-- TODO: Save any changes to table information to the DB -->
+		
+		</form></div></div>
+</div>
+
+</body>
+</html>
