@@ -30,4 +30,9 @@ public class CustomerDAO {
         TypedQuery<Customer> query = EM.getEM().createQuery("SELECT customer FROM customer customer", Customer.class);
         return query.getResultList();
       }
+      
+      public static void removeCustomer(Customer customer)
+      {
+        EM.getEM().remove(customer);
+      }
 }

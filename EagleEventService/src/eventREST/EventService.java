@@ -179,11 +179,38 @@ import systemREST.Secured;
 			  }
 		}
 		   
+		   @DELETE
+		   @Path("/customer/{id}")
+		   @Produces(MediaType.APPLICATION_JSON)
+		   @Consumes(MediaType.APPLICATION_JSON)
+		   public ArrayList<Message> DeleteCustomer(Customer deleteCustomer,@PathParam("id") String id,@Context final HttpServletResponse response) throws IOException{
+
+			  if (deleteCustomer == null) {
+
+				  response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+				  try {
+				        response.flushBuffer();
+				  }catch(Exception e){}
+				  messages.add(new Message("op002","Fail Operation",""));
+				  return messages;
+			  }
+			  else  {
+				  
+				  EntityTransaction userTransaction = EM.getEM().getTransaction();
+				  userTransaction.begin();
+				  Customer existingCustomer = CustomerDAO.findCustomerByIdNumber(id);
+				  CustomerDAO.removeCustomer(existingCustomer);
+				  userTransaction.commit();
+				  messages.add(new Message("op001","Success Operation",""));
+				  return messages;
+			  }
+		}
+		   
 		   @OPTIONS
 		   @Path("/{a:company|customer}")
 		   @Produces(MediaType.APPLICATION_JSON)
 		   public String getSupportedOperations(){
-		      return "{ {'POST' : { 'description' : 'update company'}} {'GET' : {'description' : 'get company'}} {'PUT' : {'description' : 'put'}}";
+		      return "{ {'POST' : { 'description' : 'update company'}} {'GET' : {'description' : 'get company'}} {'PUT' : {'description' : 'put'}} {'DELETE' : {'description' : 'delete'}}}";
 		   }
 		
 }	
