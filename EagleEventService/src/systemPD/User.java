@@ -13,12 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import eventPD.Student;
 import eventUT.Message;
 import systemDAO.RoleAssignmentDAO;
 @XmlRootElement(name = "user")

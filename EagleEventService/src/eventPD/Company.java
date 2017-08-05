@@ -1,8 +1,6 @@
 package eventPD;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,10 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import eventDAO.CompanyDAO;
-import eventDAO.StudentDAO;
 
 @XmlRootElement(name = "company")
 @Entity(name = "company")

@@ -2,7 +2,10 @@
 <html>
 <head>
 <script src="scripts/jquery.min.js"></script>
-
+<script src="scripts/kendo.all.min.js"></script>
+<link rel="stylesheet" type="text/css" href="Styles/kendo.common.min.css">
+<link rel="stylesheet" type="text/css" href="Styles/kendo.default.min.css">
+<link rel="stylesheet" type="text/css" href="Styles/kendo.default.mobile.min.css">
 <link rel="stylesheet" type="text/css" href="style.css">
 <title>Event Maintenance</title>
 <style>
@@ -32,6 +35,198 @@ function RemoveClicked()
 	$("#updateEvent").hide();
 	$("#removeEvent").show();
 }
+
+function getEvents() {
+	$.ajax({
+	    url: "/EagleEventService/event/eventservice/events/",
+	    type: 'GET',
+	    datatype: 'json',
+	    statusCode: {
+	    200: function( response ) {
+					var test = "";
+	    		},
+	    401:function( response ) {
+
+	    		},
+    	    405:function( response ) {
+
+	  	    	}
+	    },
+	    
+	    error: function(jqXHR, textStatus, errorThrown) {
+  	        console.log("error " + textStatus);
+  	        console.log("incoming Text " + jqXHR.responseText);}
+	  });   	
+}
+
+var updateDataItem;
+
+function updateSelect(e)
+{
+	if (e.item) {
+		updateDataItem = this.dataItem(e.item);
+		$('#updateEvent').val(updateDataItem.event);
+	}
+}
+
+var removeDataItem;
+
+function removeSelect(e)
+{
+	if (e.item) {
+		removeDataItem = this.dataItem(e.item);
+	}
+}
+
+function Refresh()
+{
+	var dropdownlist1 = $("#updateEventName").data("kendoDropDownList");
+	dropdownlist1.refresh();	
+	var dropdownlist2 = $("#removeEventName").data("kendoDropDownList");
+	dropdownlist2.refresh();	
+}
+
+
+$(document).ready(function() {
+	
+	var dataSource = new kendo.data.DataSource({
+		  transport: { 
+		    read: { 
+		      url: "/EagleEventService/event/eventservice/events/", 
+		      dataType: "json"
+		    }
+		  }
+		});
+	
+    $("#updateEventName").kendoDropDownList({
+        dataTextField: "name",
+        dataValueField: "eventId",
+        select: updateSelect,
+        cascade: function(e)
+        {
+        	var dropdownlist = $("#updateEventName").data("kendoDropDownList");
+
+        	if(dropdownlist.selectedIndex != -1)
+        		{
+        	// get the dataItem corresponding to the selectedIndex.
+        	updateDataItem = dropdownlist.dataItem();
+
+        	$('#updateEventName').val(updateDataItem.event);
+        		}
+        },
+       	dataSource: dataSource
+    });
+    
+    $("#removeEventName").kendoDropDownList({
+        dataTextField: "name",
+        dataValueField: "eventId",
+        select: removeSelect,
+        cascade: function(e)
+        {
+        	var dropdownlist = $("#removeEventName").data("kendoDropDownList");
+
+        	// get the dataItem corresponding to the selectedIndex.
+        	removeDataItem = dropdownlist.dataItem();
+        },
+       	dataSource: dataSource
+    });
+   
+    
+	$("#eventAddInformation").submit(function (e){
+		$.ajax({
+		    url: "/EagleEventService/event/eventservice/events/",
+		    type: 'POST',
+		    datatype: 'json',
+			contentType: "application/json",
+			data: '{'+  
+			'"email" : "'+$('#addCustomerEmail').val() +'",'+
+			'"name" : "'+$('#addCustomerName').val() +'"'+
+			"}",
+		    statusCode: {
+		    200: function( response ) {
+		    			dataSource.read();
+		    			Refresh();
+		    			alert('Customer was successfully added.');
+		    		},
+		    401:function( response ) {
+		    		//$('#page-message').html("You must Login first");
+		    		},
+	    	    405:function( response ) {
+		  	    	//$('#page-message').html("Access to the page forbiden");
+		  	    	}
+		    },
+		    
+		    error: function(jqXHR, textStatus, errorThrown) {
+	  	        console.log("error " + textStatus);
+	  	        console.log("incoming Text " + jqXHR.responseText);}
+		  }); 
+		e.preventDefault();
+	});
+	
+	$("#customerUpdateInformation").submit(function (e){
+		$.ajax({
+		    url: "/EagleEventService/event/eventservice/customer/" + updateDataItem.customerId,
+		    type: 'PUT',
+		    datatype: 'json',
+			contentType: "application/json",
+			data: '{'+  
+			'"customer_id" :"'+ updateDataItem.customerId +'",'+
+			'"email" : "'+ $('#updateCustomerEmail').val() +'",'+
+			'"name" : "'+ updateDataItem.name +'"'+
+			"}",
+		    statusCode: {
+		    200: function( response ) {
+		    			dataSource.read();
+		    			Refresh();
+		    			alert('Customer was successfully updated.');
+		    		},
+		    401:function( response ) {
+		    		//$('#page-message').html("You must Login first");
+		    		},
+	    	    405:function( response ) {
+		  	    	//$('#page-message').html("Access to the page forbidden");
+		  	    	}
+		    },
+		    
+		    error: function(jqXHR, textStatus, errorThrown) {
+	  	        console.log("error " + textStatus);
+	  	        console.log("incoming Text " + jqXHR.responseText);}
+		  }); 
+		e.preventDefault();
+	});
+	
+	$("#eventRemoveInformation").submit(function (e){
+		$.ajax({
+		    url: "/EagleEventService/event/eventservice/events/" + updateDataItem.eventId,
+		    type: 'DELETE',
+		    datatype: 'json',
+			contentType: "application/json",
+			data: '{'+  
+			'"event_id" :"'+ removeDataItem.eventId +'",'+
+			'"name" : "'+ removeDataItem.name +'",'+
+			'"venue" : "'+ removeDataItem.venue +'"'+
+			"}",
+		    statusCode: {
+		    200: function( response ) {
+		    			dataSource.read();
+		    			Refresh();
+		    			alert('Customer was successfully removed.');
+		    		},
+		    401:function( response ) {
+		    		//$('#page-message').html("You must Login first");
+		    		},
+	    	    405:function( response ) {
+		  	    	//$('#page-message').html("Access to the page forbidden");
+		  	    	}
+		    },
+		    
+		    error: function(jqXHR, textStatus, errorThrown) {
+	  	        console.log("error " + textStatus);
+	  	        console.log("incoming Text " + jqXHR.responseText);}
+		  }); 
+		e.preventDefault();
+	});
+});
 </script>
 </head>
 <body> 
@@ -59,27 +254,27 @@ function RemoveClicked()
 <div id="addEvent" style="display:none;">
 		<form id="eventAddInformation" method="post"> 
 		   Event Name:
-		   <input type="text" id="eventName" >
+		   <input type="text" id="addEventName" >
 		   <span id="eventNameErr" class="error">* </span>
 		   <br><br>
 		   Venue:
-		   <input type="text" id="venueName">
+		   <input type="text" id="addVenueName">
 		   <span id="venueNameErr" class="error">* </span>
 		   <br><br>
 		   Customer Name:
-		   <input type="text" id="customerName">
+		   <input type="text" id="addCustomerName">
 		   <span id="customerNameErr" class="error">*</span>
 		   <br><br>
 		   Max Guests:
-		   <input type="number" id="maxGuests">
+		   <input type="number" id="addMaxGuests">
 		   <span id="maxGuestsErr" class="error">*</span>
 		   <br><br>
 		   # of Tables:
-		   <input type="number" id="numberOfTables">
+		   <input type="number" id="addNumberOfTables">
 		   <span id="numberOfTablesErr" class="error">*</span>
 		   <br><br>
 		   Guest List File:
-		   <input type="file" id="guestListFile">
+		   <input type="file" id="addGuestListFile">
 		   <span id="guestListFileErr" class="error">*</span>
 		   <input type="image" src="images/eagleLoadButton.png" 
 		   		height="auto" width="200" name="load" value="Load"> 
@@ -99,19 +294,19 @@ function RemoveClicked()
 <div id="updateEvent" style="display:none;">
 <form id="eventUpdateInformation" method="post"> 
 		   Event Name:
-		   <input type="text" id="eventName" >
+		   <input id="updateEventName" >
 		   <span id="eventNameErr" class="error">* </span>
 		   <br><br>
 		   Staff Name:
-		   <input type="text" id="staffName" >
+		   <input type="text" id="updateStaffName" >
 		   <span id="staffNameErr" class="error">* </span>
 		   <br><br>		   
 		   Customer Name:
-		   <input type="text" id="customerName">
+		   <input type="text" id="updateCustomerName">
 		   <span id="customerNameErr" class="error">*</span>
 		   <br><br>
 		   Guest List File:
-		   <input type="file" id="guestListFile">
+		   <input type="file" id="updateGuestListFile">
 		   <span id="guestListFileErr" class="error">*</span>
 		   <input type="image" src="images/eagleLoadButton.png" 
 		   		height="auto" width="200" name="load" value="Load"> 
@@ -136,13 +331,13 @@ function RemoveClicked()
 <div id="removeEvent" style="display:none;">
 <form id="eventRemoveInformation" method="post"> 
 		  Event Name:
-		   <input type="text" id="eventName" >
+		   <input id="removeEventName" >
 		   <span id="eventNameErr" class="error">* </span>
 		   <br><br>
 		
 		   <div id="page-message" style="color: red"></div>
 
-		   <input type="image" src="images/eagleDeleteEventButton.png" 
+		   <input type="image" src="images/eagleRemoveEventButton.png" 
 		   		height="auto" width="100" name="delete" value="Delete"> 
 
 		</form></div></div>

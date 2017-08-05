@@ -13,6 +13,7 @@ import javax.ws.rs.NameBinding;
 
 import systemPD.Role;
 
+@SuppressWarnings("unused")
 @NameBinding
 @Retention(RUNTIME)
 @Target({TYPE, METHOD})

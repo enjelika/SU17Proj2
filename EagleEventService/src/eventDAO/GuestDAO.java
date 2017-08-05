@@ -7,6 +7,7 @@ import javax.persistence.TypedQuery;
 import eventPD.Customer;
 import eventPD.Guest;
 
+@SuppressWarnings("unused")
 public class GuestDAO {
 	public static void saveGuest(Guest guest) {
         EM.getEM().persist(guest);

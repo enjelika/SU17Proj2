@@ -4,7 +4,6 @@ import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import eventPD.Student;
 import eventPD.Zip;
 
 public class ZipDAO { 

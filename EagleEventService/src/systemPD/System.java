@@ -3,7 +3,6 @@ package systemPD;
 import java.util.Collection;
 import java.util.List;
 
-import eventDAO.StudentDAO;
 import systemDAO.TokenDAO;
 import systemDAO.UserDAO;
 
@@ -11,10 +10,12 @@ public class System {
 
   public static System system;
   private Collection<Token> tokens;
-  private Collection<Role> roles;
+  @SuppressWarnings("unused")
+private Collection<Role> roles;
   private Collection<User> users;
 
-  public System getSystem() {
+  @SuppressWarnings("static-access")
+public System getSystem() {
     return this.system;
   }
 

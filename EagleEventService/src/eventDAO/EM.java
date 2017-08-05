@@ -4,6 +4,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+@SuppressWarnings("unused")
 public class EM {
       
       static EntityManagerFactory entityManagerFactory;

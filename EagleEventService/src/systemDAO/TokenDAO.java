@@ -9,6 +9,7 @@ import eventDAO.EM;
 import systemPD.Token;
 import systemPD.User;
 
+@SuppressWarnings("unused")
 public class TokenDAO { 
 
   public static void saveToken(Token token) {

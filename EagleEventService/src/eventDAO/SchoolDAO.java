@@ -4,7 +4,6 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 
 import eventPD.School;
-import eventPD.Student;
 
 public class SchoolDAO { 
 

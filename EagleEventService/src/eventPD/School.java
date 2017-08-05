@@ -15,7 +15,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import eventDAO.StudentDAO;
-import eventUT.Log;
 
 @XmlRootElement(name = "school")
 @Entity(name = "school")

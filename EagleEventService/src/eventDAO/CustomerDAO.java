@@ -6,7 +6,6 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import eventPD.Customer;
-import eventPD.Student;
 
 public class CustomerDAO {
 	
