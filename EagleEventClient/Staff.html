@@ -198,7 +198,7 @@ $(document).ready(function() {
 	
 	$("#staffRemoveInformation").submit(function (e){
 		$.ajax({
-		    url: "/EagleEventService/event/eventservice/staff/" + updateDataItem.staffId,
+		    url: "/EagleEventService/event/eventservice/staff/" + removeDataItem.staffId,
 		    type: 'DELETE',
 		    datatype: 'json',
 			contentType: "application/json",
