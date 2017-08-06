@@ -204,8 +204,8 @@ $(document).ready(function() {
 			'"maxguests" : "'+$('addMaxGuests').val() +'",'+
 			'"numtables" : "'+$('addNumTables').val() +'",'+
 			'"guestlist" : "'+$('addGuestList').val() +'",'+
-			'"customer_id" : "'+$('addCustomerId').val() +'",'
-			'"staff_id" : "'+$('addStaffId').val() +'"'
+			'"customer_id" : "'+$('addCustomerId').val() +'",' +
+			'"staff_id" : "'+$('addStaffId').val() +'"'+
 			"}",
 		    statusCode: {
 		    200: function( response ) {
@@ -242,7 +242,7 @@ $(document).ready(function() {
 			'"numtables" : "'+$('addNumTables').val() +'",'+
 			'"guestlist" : "'+$('addGuestList').val() +'",'+
 			'"customer_id" :"'+ updateDataItem.customerId +'",'+
-			'"staff_id" : "'updateDataItem.staffId +'"'
+			'"staff_id" : "' + updateDataItem.staffId +'"' +
 			"}",
 		    statusCode: {
 		    200: function( response ) {
@@ -279,7 +279,7 @@ $(document).ready(function() {
 			'"numtables" : "'+ removeDataItem.numtables +'",'+
 			'"guestlist" : "'+ removeDataItem.guestlist +'",'+
 			'"customer_id" :"'+ removeDataItem.customerId +'",'+
-			'"staff_id" : "'removeDataItem.staffId +'"'
+			'"staff_id" : "' + removeDataItem.staffId +'"' +
 			"}",
 		    statusCode: {
 		    200: function( response ) {
