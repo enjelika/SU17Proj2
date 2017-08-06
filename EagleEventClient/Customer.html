@@ -198,7 +198,7 @@ $(document).ready(function() {
 	
 	$("#customerRemoveInformation").submit(function (e){
 		$.ajax({
-		    url: "/EagleEventService/event/eventservice/customer/" + updateDataItem.customerId,
+		    url: "/EagleEventService/event/eventservice/customer/" + removeDataItem.customerId,
 		    type: 'DELETE',
 		    datatype: 'json',
 			contentType: "application/json",
