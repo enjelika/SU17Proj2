@@ -3,3 +3,7 @@
 /SchoolDAO.class
 /StudentDAO.class
 /ZipDAO.class
+/CustomerDAO.class
+/EventDAO.class
+/GuestDAO.class
+/StaffDAO.class
