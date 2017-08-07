@@ -43,12 +43,15 @@ public class Guest implements Serializable {
 		@Column(name = "notsametable2", nullable = false,length = 10)
 		private int notsametable2;
 
+		@Column(name = "tablenumber", nullable = true,length = 10)
+		private int tablenumber;
+		
 	   public Guest(){
 
 	   }
 	   
 	   public Guest(String firstname, String lastname, int sametable1, int sametable2, 
-			   int sametable3, int notsametable1, int notsametable2){
+			   int sametable3, int notsametable1, int notsametable2, int tablenumber){
 	     this();
 	     this.firstname = firstname;
 	     this.lastname = lastname;
@@ -57,7 +60,9 @@ public class Guest implements Serializable {
 	     this.sametable3 = sametable3;
 	     this.notsametable1 = notsametable1;
 	     this.notsametable2 = notsametable2;
+	     this.tablenumber = tablenumber;
 	   }
+
 
 	   public int getGuestId() {
 	      return guest_id;
@@ -142,4 +147,13 @@ public class Guest implements Serializable {
 			GuestDAO.saveGuest(guest);
 		    return true;
 		}
+		
+		public int getTableNumber() {
+		      return tablenumber;
+	   }
+	   
+	   @XmlElement
+	   public void setTableNumber(int tablenumber) {
+		   this.tablenumber = tablenumber;
+	   }
 }
