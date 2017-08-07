@@ -351,6 +351,15 @@ ALTER TABLE `guest`
   ADD PRIMARY KEY (`guest_id`),
   ADD UNIQUE KEY `guest_id` (`guest_id`);
 
+INSERT INTO `guest` (`guest_id`, `firstname`, `lastname`, `sametable1`, `sametable2`, `sametable3`, `notsametable1`, `notsametable2`, `tablenumber`) VALUES
+(1, 'Jared', 'Barger', 2, 0, 0, 0, 0, 1),
+(2, 'Blake', 'Jesch', 0, 0, 0, 0, 0, 1),
+(3, 'Shane', 'Ellitott', 5, 0, 0, 0, 0, 2),
+(4, 'Debra', 'Hogue', 0, 0, 0, 0, 0, 2),
+(5, 'Christine', 'Gourley', 0, 0, 0, 0, 0, 1),
+(6, 'Thuy', 'Nguyen', 0, 0, 0, 0, 0, 2);
+
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
