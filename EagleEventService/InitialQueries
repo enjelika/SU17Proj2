@@ -337,8 +337,10 @@ CREATE TABLE `guest` (
   `sametable2` int(10) NOT NULL,
   `sametable3` int(10) NOT NULL,
   `notsametable1` int(10) NOT NULL,
-  `notsametable2` int(10) NOT NULL
+  `notsametable2` int(10) NOT NULL,
+  `tablenumber` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 --
 -- Indexes for dumped tables
