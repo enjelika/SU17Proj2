@@ -239,6 +239,13 @@ import eventUT.Message;
 		}
 		   
 		   @GET
+		   @Path("/guest")
+		   @Produces(MediaType.APPLICATION_JSON)
+		   public List<Guest> getGuests(){
+			   return (GuestDAO.listGuest());
+		   }	
+		   
+		   @GET
 		   @Path("/customer")
 		   @Produces(MediaType.APPLICATION_JSON)
 		   public List<Customer> getCustomers(){
@@ -413,7 +420,7 @@ import eventUT.Message;
 		}
 		   
 		   @OPTIONS
-		   @Path("/{a:company|customer|staff}")
+		   @Path("/{a:company|customer|staff|guest}")
 		   @Produces(MediaType.APPLICATION_JSON)
 		   public String getSupportedOperations(){
 		      return "{ {'POST' : { 'description' : 'update company'}} {'GET' : {'description' : 'get company'}} {'PUT' : {'description' : 'put'}} {'DELETE' : {'description' : 'delete'}}}";
