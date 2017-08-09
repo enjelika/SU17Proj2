@@ -29,6 +29,8 @@ function SaveClicked()
 	$("#resetEvent").hide();
 	$("#saveEvent").show();
 }
+
+// TODO: Add REST Services for CRUD of Guests into DB
 </script>
 </head>
 <body> 
@@ -48,24 +50,25 @@ function SaveClicked()
 <div class = "block-center">
 <div id="buttonArea" style="float: left;width: 250px;">
 		<input type="image" src="images/eagleBackButton.png" height="auto" width="200" name="reset" value="Reset" style="float: right;" onclick="BackClicked()"><br>
-		<input type="image" src="images/eagleResetEventButton.png" height="auto" width="200" name="reset" value="Reset" style="float: right;" onclick="ResetClicked()"> <br>
-		<input type="image" src="images/eagleSaveEventButton.png" height="auto" width="200" name="reset" value="Reset" style="float: right;" onclick="SaveClicked()"> <br>
+		<input type="image" src="images/eagleResetEventButton.png" height="auto" width="150" name="reset" value="Reset" style="float: right;" onclick="ResetClicked()"> <br>
+		<input type="image" src="images/eagleSaveEventButton.png" height="auto" width="150" name="reset" value="Reset" style="float: right;" onclick="SaveClicked()"> <br>
 </div>
 <div id="eventInformation" class="generalArea" style="height: 300px;">
 <br>
-<div id="ResetEvent" style="display:none;">
-<form id="eventResetTableInformation" method="post"> 
-		   
+<div id="updateGuests" style="display:none;">
+<form id="eventUpdateGuestsInformation" method="post"> 
+		Guest List File:
+		<input type="file" id="updateGuestList">
+		<span id="guestListFileErr" class="error">*</span>
+				   
 		<!-- TODO: Generate Table/Grid from Event max table information -->   
-		   
-		</form></div>
-<div id="saveCustomer" style="display:none;">
-<form id="eventSaveTableInformation" method="post"> 
-		
-		<!-- TODO: Save any changes to table information to the DB -->
-		
-		</form></div></div>
+				
+		<div id="page-message" style="color: red"></div>
+		<input type="image" src="images/eagleGenerateSeatingButton.png" 
+		 	   height="auto" width="200" name="generateSeating" value="GenerateSeating"> 
+</form>
 </div>
-
+</div>
+</div>
 </body>
 </html>
