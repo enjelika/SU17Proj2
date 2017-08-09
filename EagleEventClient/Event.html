@@ -65,7 +65,10 @@ function updateSelect(e)
 {
 	if (e.item) {
 		updateDataItem = this.dataItem(e.item);
-		$('#updateEvent').val(updateDataItem.event);
+		$('#updateEventName').val(updateDataItem.name);
+		$('#updateCustomerName').val(updateDataItem.customer_id);
+		$('#updateStaffName').val(updateDataItem.staff_id);
+		$('#updateGuestList').val(updateDataItem.guestlist);
 	}
 }
 
@@ -84,10 +87,14 @@ function Refresh()
 	dropdownlist1.refresh();	
 	var dropdownlist2 = $("#removeEventName").data("kendoDropDownList");
 	dropdownlist2.refresh();	
-	var dropdownlist3 = $("#updateCustomerName").data("kendoDropDownList");
+	var dropdownlist3 = $("#addCustomerName").data("kendoDropDownList");
 	dropdownlist3.refresh();
-	var dropdownlist4 = $("updateStaffName").data("kendoDropDownList");
+	var dropdownlist4 = $("#addStaffName").data("kendoDropDownList");
 	dropdownlist4.refresh();
+	var dropdownlist5 = $("#updateCustomerName").data("kendoDropDownList");
+	dropdownlist5.refresh();
+	var dropdownlist6 = $("updateStaffName").data("kendoDropDownList");
+	dropdownlist6.refresh();
 }
 
 
@@ -119,6 +126,44 @@ $(document).ready(function() {
 		    }
 		  }
 		});
+	
+    $("#addCustomerName").kendoDropDownList({
+        dataTextField: "name",
+        dataValueField: "customerId",
+        select: updateSelect,
+        cascade: function(e)
+        {
+        	var dropdownlist = $("#addCustomerName").data("kendoDropDownList");
+
+        	if(dropdownlist.selectedIndex != -1)
+        		{
+        	// get the dataItem corresponding to the selectedIndex.
+        	updateDataItem = dropdownlist.dataItem();
+
+        	$('#addCustomerId').val(updateDataItem.customer_id);
+        		}
+        },
+       	dataSource: dataSource2
+    });
+    
+    $("#addStaffName").kendoDropDownList({
+        dataTextField: "name",
+        dataValueField: "staffId",
+        select: updateSelect,
+        cascade: function(e)
+        {
+        	var dropdownlist = $("#addStaffName").data("kendoDropDownList");
+
+        	if(dropdownlist.selectedIndex != -1)
+        		{
+        	// get the dataItem corresponding to the selectedIndex.
+        	updateDataItem = dropdownlist.dataItem();
+
+        	$('#addStaffId').val(updateDataItem.staff_id);
+        		}
+        },
+       	dataSource: dataSource3
+    });
 	
     $("#updateEventName").kendoDropDownList({
         dataTextField: "name",
@@ -201,11 +246,11 @@ $(document).ready(function() {
 			data: '{'+  
 			'"venue" : "'+$('#addVenueName').val() +'",'+
 			'"name" : "'+$('#addEventName').val() +'",'+
-			'"maxguests" : "'+$('addMaxGuests').val() +'",'+
-			'"numtables" : "'+$('addNumTables').val() +'",'+
-			'"guestlist" : "'+$('addGuestList').val() +'",'+
-			'"customer_id" : "'+$('addCustomerId').val() +'",' +
-			'"staff_id" : "'+$('addStaffId').val() +'"'+
+			'"maxguests" : "'+$('#addMaxGuests').val() +'",'+
+			'"numtables" : "'+$('#addNumTables').val() +'",'+
+			'"guestlist" : "'+$('#addGuestList').val() +'",'+
+			'"customer_id" : "'+$('#addCustomerId').val() +'",' +
+			'"staff_id" : "'+$('#addStaffId').val() +'"'+
 			"}",
 		    statusCode: {
 		    200: function( response ) {
@@ -238,9 +283,9 @@ $(document).ready(function() {
 			'"event_id" :"'+ updateDataItem.eventId +'",'+
 			'"venue" : "'+$('#addEventVenue').val() +'",'+
 			'"name" : "'+ updateDataItem.name +'"'+
-			'"maxguests" : "'+$('addMaxGuests').val() +'",'+
-			'"numtables" : "'+$('addNumTables').val() +'",'+
-			'"guestlist" : "'+$('addGuestList').val() +'",'+
+			'"maxguests" : "'+$('#addMaxGuests').val() +'",'+
+			'"numtables" : "'+$('#addNumTables').val() +'",'+
+			'"guestlist" : "'+$('#addGuestList').val() +'",'+
 			'"customer_id" :"'+ updateDataItem.customerId +'",'+
 			'"staff_id" : "' + updateDataItem.staffId +'"' +
 			"}",
@@ -253,7 +298,7 @@ $(document).ready(function() {
 		    401:function( response ) {
 		    		//$('#page-message').html("You must Login first");
 		    		},
-	    	    405:function( response ) {
+	    	405:function( response ) {
 		  	    	//$('#page-message').html("Access to the page forbidden");
 		  	    	}
 		    },
@@ -290,7 +335,7 @@ $(document).ready(function() {
 		    401:function( response ) {
 		    		//$('#page-message').html("You must Login first");
 		    		},
-	    	    405:function( response ) {
+	    	405:function( response ) {
 		  	    	//$('#page-message').html("Access to the page forbidden");
 		  	    	}
 		    },
@@ -337,11 +382,11 @@ $(document).ready(function() {
 		   <span id="venueNameErr" class="error">* </span>
 		   <br><br>
 		   Customer Name:
-		   <input id="addCustomerId">
+		   <input id="addCustomerName">
 		   <span id="customerNameErr" class="error">*</span>
 		   <br><br>
 		   Staff Name:
-		   <input id="addStaffId">
+		   <input id="addStaffName">
 		   <span id="staffNameErr" class="error">*</span>
 		   <br><br>
 		   Max Guests:
@@ -355,8 +400,6 @@ $(document).ready(function() {
 		   Guest List File:
 		   <input type="file" id="addGuestList">
 		   <span id="guestListFileErr" class="error">*</span>
-		   <input type="image" src="images/eagleLoadButton.png" 
-		   		height="auto" width="200" name="load" value="Load"> 
 		   <br><br>
 		   <div id="page-message" style="color: red"></div>
 		   		   <input type="image" src="images/eagleGenerateSeatingButton.png" 
@@ -365,6 +408,7 @@ $(document).ready(function() {
 		   		height="auto" width="200" name="printGuests" value="PrintGuests"> 
 		   <input type="image" src="images/eaglePrintPlaceCardsButton.png" 
 		   		height="auto" width="200" name="printPlaceCards" value="PrintPlaceCards"> 
+		   	<br><br>
 		   <input type="image" src="images/eagleResetButton.png" 
 		   		height="auto" width="200" name="reset" value="Reset"> 
 		   <input type="image" src="images/eagleSaveButton.png" 
@@ -387,8 +431,6 @@ $(document).ready(function() {
 		   Guest List File:
 		   <input type="file" id="updateGuestList">
 		   <span id="guestListFileErr" class="error">*</span>
-		   <input type="image" src="images/eagleLoadButton.png" 
-		   		height="auto" width="200" name="load" value="Load"> 
 		   <br><br>
 		   <a href="MaintainTables.html">Maintain Tables</a>
 		   <a href="MaintainGuests.html">Maintain Guests</a>
@@ -411,13 +453,10 @@ $(document).ready(function() {
 <form id="eventRemoveInformation" method="post"> 
 		  Event Name:
 		   <input id="removeEventName" >
-		   <span id="eventNameErr" class="error">* </span>
 		   <br><br>
-		
 		   <div id="page-message" style="color: red"></div>
-
 		   <input type="image" src="images/eagleRemoveEventButton.png" 
-		   		height="auto" width="100" name="delete" value="Delete"> 
+		   		height="auto" width="200" name="delete" value="Delete"> 
 
 		</form></div></div>
 </div>
