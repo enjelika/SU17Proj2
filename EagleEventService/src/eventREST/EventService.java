@@ -41,162 +41,19 @@ import eventUT.Message;
 		
 		Company company = (Company) (CompanyDAO.listCompany().get(0));
 		Log log = new Log();
-		static ArrayList<List<Guest>> permutatedGuestLists = new ArrayList<List<Guest>>();	// For testing purpose will move to the correct place
-
 		
 		   @GET
 		   @Path("/company/")
 		   @Produces(MediaType.APPLICATION_JSON)
 		   public Company getCompany(){
-			  GenerateGuestsListWithSeatArrangement();	// for testing purpose
+			// Example how to call the GA
+				int tableSize = 4;
+				GeneticAlgorithm.GA.runGA(GuestDAO.listGuest(), tableSize);
+				GeneticAlgorithm.GA.printResult();
 		      return company;
 		   }
 		 
-		   // Generate a guests list with seat arrangement
-		   public static void GenerateGuestsListWithSeatArrangement()
-		   {				
-			   // Obtain a guests list
-			   List<Guest> guests = GuestDAO.listGuest();	//Need to update to check for getting the list depend on the selected event
-			  
-			   // Permute and store the result combination list 
-			   permute(guests, 0);
-			  
-			   // Check each of the possible guests list
-			   for(List<Guest> permutatedGuestList : permutatedGuestLists) 
-			   {
-				   // For example, if we have 3 seats per table
-				   int tableSize = 3;	// Need to obtain somewhere in the db
-				   int tableNumber = 1;	// First table number
-				   int seatNumber = 1;	// First seat number
-				  				
-				   // Assign guest into each table depend on the size of the table
-				   for(Guest guest : permutatedGuestList) 
-				   {
-					   if(seatNumber < tableSize + 1) {
-						   guest.setTableNumber(tableNumber);	// Assign table number
-						   seatNumber++;	// Increment seat number
-					   }
-					   else {
-						   seatNumber = 1;	// Reset seat number
-						   tableNumber++;	// Increment table number
-						   guest.setTableNumber(tableNumber);	// Assign table number
-						   seatNumber++;	// Increment seat number
-					   }
-				   	}
-
-				   for(Guest guest : guests) {
-					   System.out.println("---" + guest.getFirstName() + " " + guest.getTableNumber());
-				   }
-				   
-				   // Validate the seat arrangement
-				   boolean correctArrangement = ValidateSeatingArrangement(permutatedGuestList);
-				  		
-				   // If there is a correct seat arrangement , save it and stop checking other seat arrangements
-				   if(correctArrangement) {
-					   System.out.println("Complete seat arrangement");
-					   for(Guest guest : permutatedGuestList) 
-					   {
-						   EntityTransaction guestsTransaction = EM.getEM().getTransaction();
-						   guestsTransaction.begin();
-						   GuestDAO.findGuestById(guest.getGuestId()).setTableNumber(guest.getTableNumber());
-						   guestsTransaction.commit();
-						   System.out.println(guest.getFirstName() + "(" + guest.getTableNumber() + ")");
-					   }
-					   break;
-				   }
-				   else {
-					   System.out.println("This seat arrangement is fail the constraints. Move to the next seat arrangement");
-				   }
-			   }
-			  
-			   System.out.println("Done Process");
-		   }
 		   
-		   // Find guest by id
-		   public static Guest FindGuestById (int id, List<Guest> guests)
-		   {
-			   for (Guest guest : guests) {
-				   if(guest.getGuestId() == id) {
-					   return guest;
-				   }
-			   }
-			   return null;
-		   }
-		   
-		   // Validate the seating arrangement
-		   public static boolean ValidateSeatingArrangement(List<Guest> permutatedGuestList) 
-		   {
-			  boolean correctArrangement = false;
-			   
-			  // Check each guest for the constraints
-			  for(Guest guest : permutatedGuestList) 
-			  {
-				  // Check for same table request
-				  if(guest.GetSameTable1() != 0)
-				  {
-					  if(FindGuestById(guest.GetSameTable1(), permutatedGuestList).getTableNumber() == guest.getTableNumber())
-					  {
-						  correctArrangement = true;
-					  }
-					  else {
-						  correctArrangement = false;
-						  break;
-					  }
-				  }
-				  
-				  if(guest.GetSameTable2() != 0)
-					  if(FindGuestById(guest.GetSameTable2(), permutatedGuestList).getTableNumber() == guest.getTableNumber())
-						  correctArrangement = true;
-					  else
-					  {
-						  correctArrangement = false;
-						  break;
-					  }
-				  if(guest.GetSameTable3() != 0)
-					  if(FindGuestById(guest.GetSameTable3(), permutatedGuestList).getTableNumber() == guest.getTableNumber())
-						  correctArrangement = true;
-					  else
-					  {
-						  correctArrangement = false;
-						  break;
-					  }
-				  
-				  // Check for NOT same table request
-				  if(guest.GetNotSameTable1() != 0)
-					  if(FindGuestById(guest.GetNotSameTable1(), permutatedGuestList).getTableNumber() == guest.getTableNumber())
-					  {
-						  correctArrangement = false;
-						  break;
-					  }
-					  else
-						  correctArrangement = true;
-				  if(guest.GetNotSameTable2() != 0)
-					  if(FindGuestById(guest.GetNotSameTable2(), permutatedGuestList).getTableNumber() == guest.getTableNumber())
-					  {
-						  correctArrangement = false;
-						  break;
-					  }
-					  else
-						  correctArrangement = true;
-			  }
-			  
-			  return correctArrangement;
-		   }
-		   
-		   // Do permutation to find all guest combinations
-		   public static void permute(List<Guest> guests, int startIndex) 
-		   {
-			   for(int index = startIndex; index < guests.size(); index++)
-			   {
-		            java.util.Collections.swap(guests, index, startIndex);
-		            permute(guests, startIndex+1);
-		            java.util.Collections.swap(guests, startIndex, index);
-			   }
-			   if (startIndex == guests.size() -1){
-				   List result = new ArrayList<Guest>(guests);
-				   permutatedGuestLists.add(result); // Store each result into a list
-			   }
-		   }
 		   
 		   @POST
 		   @Path("/company")
