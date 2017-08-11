@@ -13,12 +13,6 @@ input[type="text"] {
 }
 </style>
 <script type="text/javascript">
-function BackClicked()
-{
-	var url = "//localhost/EagleEventClient/Event.html";
-    window.location(url); // TODO: Fix this.  Redirect not working
-}
-
 function ResetClicked()
 {
 	$("#resetEvent").show();
@@ -28,6 +22,31 @@ function SaveClicked()
 {
 	$("#resetEvent").hide();
 	$("#saveEvent").show();
+}
+
+function addTable() {
+    
+    var myTableDiv = document.getElementById("myDynamicTable");
+     
+    var table = document.createElement('TABLE');
+    table.border='1';
+   
+    var tableBody = document.createElement('TBODY');
+    table.appendChild(tableBody);
+     
+    for (var i=0; i<3; i++){
+       var tr = document.createElement('TR');
+       tableBody.appendChild(tr);
+      
+       for (var j=0; j<4; j++){
+           var td = document.createElement('TD');
+           td.width='75';
+           td.appendChild(document.createTextNode("Cell " + i + "," + j));
+           tr.appendChild(td);
+       }
+    }
+    myTableDiv.appendChild(table);
+   
 }
 </script>
 </head>
@@ -47,7 +66,7 @@ function SaveClicked()
 <h2>Event: Maintain Tables</h2> <!-- TODO: Get Event Name for h2 -->
 <div class = "block-center">
 <div id="buttonArea" style="float: left;width: 250px;">
-				<p>
+		<p>
 			<a href="//localhost/EagleEventClient/Event.html">
 			<img border="0" alt="Back" src="images/eagleBackButton.png" width="auto" height="75">
 			</a>

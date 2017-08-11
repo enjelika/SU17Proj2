@@ -24,7 +24,31 @@ function SaveClicked()
 	$("#saveEvent").show();
 }
 
-// TODO: Add REST Services for CRUD of Guests into DB
+function populateTable() {
+
+    var tableContent = '';
+
+    $.ajaxSetup({ beforeSend : function(xhr) {
+        xhr.setRequestHeader("Range", "bytes=0-2800" );
+     }});  
+    
+    $.get( 'http://localhost:3000/upload', function( data ) {
+
+      alert(data);
+      // This will split the string into array line by line
+      var lineByline = data.split('\n');
+      
+        // Here we're iteraing the array which you've created and printing the values
+        $.each(lineByline , function(key,value){
+            tableContent += '<tr>';
+            tableContent += '<td>' + value + '</td>';
+            tableContent += '</tr>';
+        });
+
+        $('#tablediv').html(tableContent);
+    });
+};
+
 </script>
 </head>
 <body> 
