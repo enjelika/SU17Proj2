@@ -13,12 +13,6 @@ input[type="text"] {
 }
 </style>
 <script type="text/javascript">
-function BackClicked()
-{
-	var url = "//localhost/EagleEventClient/Event.html"; 
-    window.location(url); // TODO: Fix this.  Redirect not working
-}
-
 function ResetClicked()
 {
 	$("#resetEvent").show();
@@ -49,9 +43,14 @@ function SaveClicked()
 <h2>Event: Maintain Guests</h2> <!-- TODO: Get Event Name for h2 -->
 <div class = "block-center">
 <div id="buttonArea" style="float: left;width: 250px;">
-		<input type="image" src="images/eagleBackButton.png" height="auto" width="200" name="reset" value="Reset" style="float: right;" onclick="BackClicked()"><br>
-		<input type="image" src="images/eagleResetEventButton.png" height="auto" width="150" name="reset" value="Reset" style="float: right;" onclick="ResetClicked()"> <br>
-		<input type="image" src="images/eagleSaveEventButton.png" height="auto" width="150" name="reset" value="Reset" style="float: right;" onclick="SaveClicked()"> <br>
+		<p>
+			<a href="//localhost/EagleEventClient/Event.html">
+			<img border="0" alt="Back" src="images/eagleBackButton.png" width="auto" height="75">
+			</a>
+		</p>
+		
+		<input type="image" src="images/eagleResetEventButton.png" height="75" width="auto" name="reset" value="Reset" style="float: right;" onclick="ResetClicked()"> <br>
+		<input type="image" src="images/eagleSaveEventButton.png" height="75" width="auto" name="reset" value="Reset" style="float: right;" onclick="SaveClicked()"> <br>
 </div>
 <div id="eventInformation" class="generalArea" style="height: 300px;">
 <br>
