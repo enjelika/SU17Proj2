@@ -103,7 +103,7 @@ $(document).ready(function() {
 	var dataSource = new kendo.data.DataSource({
 		  transport: { 
 		    read: { 
-		      url: "/EagleEventService/event/eventservice/events/", 
+		      url: "/EagleEventService/event/eventservice/event/", 
 		      dataType: "json"
 		    }
 		  }
@@ -325,18 +325,12 @@ $(document).ready(function() {
 	
 	$("#eventRemoveInformation").submit(function (e){
 		$.ajax({
-		    url: "/EagleEventService/event/eventservice/event/" + updateDataItem.eventId,
+		    url: "/EagleEventService/event/eventservice/event/" + removeDataItem.eventId,
 		    type: 'DELETE',
 		    datatype: 'json',
 			contentType: "application/json",
 			data: '{'+  
 			'"event_id" :"'+ removeDataItem.eventId +'",'+
-			'"name" : "'+ removeDataItem.name +'",'+
-			'"venue" : "'+ removeDataItem.venue +'",'+
-			'"maxguests" : "'+ removeDataItem.maxguests +'",'+
-			'"numtables" : "'+ removeDataItem.numtables +'",'+
-			'"guestlist" : "'+ removeDataItem.guestlist +'",'+
-			'"customer_id" :"'+ removeDataItem.customerId +'",'+
 			'"staff_id" : "' + removeDataItem.staffId +'"' +
 			"}",
 		    statusCode: {
