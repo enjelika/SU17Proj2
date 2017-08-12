@@ -65,10 +65,6 @@ function updateSelect(e)
 {
 	if (e.item) {
 		updateDataItem = this.dataItem(e.item);
-		$('#updateEventName').val(updateDataItem.name);
-		$('#updateCustomerName').val(updateDataItem.customer_id);
-		$('#updateStaffName').val(updateDataItem.staff_id);
-		$('#updateGuestList').val(updateDataItem.guestlist);
 	}
 }
 
@@ -130,38 +126,12 @@ $(document).ready(function() {
     $("#addCustomerName").kendoDropDownList({
         dataTextField: "name",
         dataValueField: "customerId",
-        select: updateSelect,
-        cascade: function(e)
-        {
-        	var dropdownlist = $("#addCustomerName").data("kendoDropDownList");
-
-        	if(dropdownlist.selectedIndex != -1)
-        		{
-        	// get the dataItem corresponding to the selectedIndex.
-        	updateDataItem = dropdownlist.dataItem();
-
-        	$('#addCustomerId').val(updateDataItem.customer_id);
-        		}
-        },
        	dataSource: dataSource2
     });
     
     $("#addStaffName").kendoDropDownList({
         dataTextField: "name",
         dataValueField: "staffId",
-        select: updateSelect,
-        cascade: function(e)
-        {
-        	var dropdownlist = $("#addStaffName").data("kendoDropDownList");
-
-        	if(dropdownlist.selectedIndex != -1)
-        		{
-        	// get the dataItem corresponding to the selectedIndex.
-        	updateDataItem = dropdownlist.dataItem();
-
-        	$('#addStaffId').val(updateDataItem.staff_id);
-        		}
-        },
        	dataSource: dataSource3
     });
 	
@@ -187,38 +157,12 @@ $(document).ready(function() {
     $("#updateCustomerName").kendoDropDownList({
         dataTextField: "name",
         dataValueField: "customerId",
-        select: updateSelect,
-        cascade: function(e)
-        {
-        	var dropdownlist = $("#updateCustomerName").data("kendoDropDownList");
-
-        	if(dropdownlist.selectedIndex != -1)
-        		{
-        	// get the dataItem corresponding to the selectedIndex.
-        	updateDataItem = dropdownlist.dataItem();
-
-        	$('#updateCustomerId').val(updateDataItem.customer_id);
-        		}
-        },
        	dataSource: dataSource2
     });
     
     $("#updateStaffName").kendoDropDownList({
         dataTextField: "name",
         dataValueField: "staffId",
-        select: updateSelect,
-        cascade: function(e)
-        {
-        	var dropdownlist = $("#updateStaffName").data("kendoDropDownList");
-
-        	if(dropdownlist.selectedIndex != -1)
-        		{
-        	// get the dataItem corresponding to the selectedIndex.
-        	updateDataItem = dropdownlist.dataItem();
-
-        	$('#updateStaffId').val(updateDataItem.staff_id);
-        		}
-        },
        	dataSource: dataSource3
     });
     
@@ -246,6 +190,20 @@ $(document).ready(function() {
     function GetAddStaffSelected()
     {
     	var dropdownlist = $("#addStaffName").data("kendoDropDownList");
+    	var dataItem = dropdownlist.dataItem();
+    	return dataItem.staffId;
+    }
+    
+    function GetUpdateCustomerSelected()
+    {
+    	var dropdownlist = $("#updateCustomerName").data("kendoDropDownList");
+    	var dataItem = dropdownlist.dataItem();
+    	return dataItem.customerId;
+    }
+    
+    function GetUpdateStaffSelected()
+    {
+    	var dropdownlist = $("#updateStaffName").data("kendoDropDownList");
     	var dataItem = dropdownlist.dataItem();
     	return dataItem.staffId;
     }
@@ -294,13 +252,8 @@ $(document).ready(function() {
 			contentType: "application/json",
 			data: '{'+  
 			'"event_id" :"'+ updateDataItem.eventId +'",'+
-			'"venue" : "'+$('#addEventVenue').val() +'",'+
-			'"name" : "'+ updateDataItem.name +'"'+
-			'"maxguests" : "'+$('#addMaxGuests').val() +'",'+
-			'"numtables" : "'+$('#addNumTables').val() +'",'+
-			'"guestlist" : "'+$('#addGuestList').val() +'",'+
-			'"customer_id" :"'+ updateDataItem.customerId +'",'+
-			'"staff_id" : "' + updateDataItem.staffId +'"' +
+			'"customer_id" : "'+ GetUpdateCustomerSelected() +'",' +
+			'"staff_id" : "'+ GetUpdateStaffSelected() +'"'+
 			"}",
 		    statusCode: {
 		    200: function( response ) {
