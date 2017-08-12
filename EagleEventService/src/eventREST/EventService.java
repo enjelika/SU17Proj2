@@ -2,6 +2,7 @@ package eventREST;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityTransaction;
@@ -18,6 +19,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 import eventDAO.CompanyDAO;
 import eventDAO.CustomerDAO;
@@ -201,8 +206,10 @@ import eventUT.Message;
 		   @POST
 		   @Path("/event")
 		   @Produces(MediaType.APPLICATION_JSON)
-		   public ArrayList<Message> addEvent(Event event,@Context final HttpServletResponse response) throws IOException{
+		   public ArrayList<Message> addEvent(String event,@Context final HttpServletResponse response) throws IOException{
 			   
+			   Object obj = JSONValue.parse(event);
+			   HashMap<String, String> map = (HashMap<String, String>) obj;
 			   if (event == null) {
 
 					  response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
@@ -216,7 +223,14 @@ import eventUT.Message;
 					  
 					  EntityTransaction userTransaction = EM.getEM().getTransaction();
 					  userTransaction.begin();
-					  EventDAO.addEvent(event);
+					  Event addEvent = new Event();
+					  addEvent.setName(map.get("name"));
+					  addEvent.setCustomerId(Integer.parseInt(map.get("customer_id")));
+					  addEvent.setStaffId(Integer.parseInt(map.get("staff_id")));
+					  addEvent.setVenue(map.get("venue"));
+					  addEvent.setMaxguests(Integer.parseInt(map.get("maxguests")));
+					  addEvent.setNumtables(Integer.parseInt(map.get("numtables")));
+					  EventDAO.addEvent(addEvent);
 					  userTransaction.commit();
 					  messages.add(new Message("op001","Success Operation",""));
 					  return messages;

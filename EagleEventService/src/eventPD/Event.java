@@ -38,13 +38,11 @@ public class Event implements Serializable {
 		@Column(name = "guestlist", nullable = false,length = 10)
 		private int guestlist;
 		
-		@ManyToOne(optional = false, cascade = CascadeType.PERSIST)
-		@JoinColumn(name = "customer_id",referencedColumnName="customer_id") 
-		private Customer customer_id;
+		@Column(name = "customer_id", nullable = false,length = 10)
+		private int customer_id;
 		
-		@ManyToOne(optional = false, cascade = CascadeType.PERSIST)
-		@JoinColumn(name = "staff_id",referencedColumnName="staff_id") 
-		private Staff staff_id;
+		@Column(name = "staff_id", nullable = false,length = 10)
+		private int staff_id;
 		
 	   	   
 	   @Column(name = "name",nullable = false,length = 40)
@@ -56,7 +54,7 @@ public class Event implements Serializable {
 	   }
 	   
 	   public Event(String venue, int maxguests, int numtables, int guestlist,
-			   Customer customer_id, Staff staff_id, String name){
+			   int customer_id, int staff_id, String name){
 	     this();
 	     this.venue = venue;
 	     this.maxguests = maxguests;
@@ -122,20 +120,20 @@ public class Event implements Serializable {
 			this.guestlist = guestlist;
 		}
 		
-		public Customer getCustomerId() {
+		public int getCustomerId() {
 			return customer_id;
 		}
 		@XmlElement
-		public void setCustomerId(Customer customer_id) {
+		public void setCustomerId(int customer_id) {
 		
 			this.customer_id = customer_id;
 		}
 		
-		public Staff getStaffId() {
+		public int getStaffId() {
 			return staff_id;
 		}
 		@XmlElement
-		public void setStaffId(Staff staff_id) {
+		public void setStaffId(int staff_id) {
 		
 			this.staff_id = staff_id;
 		}
