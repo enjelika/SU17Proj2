@@ -13,15 +13,61 @@ input[type="text"] {
 }
 </style>
 <script type="text/javascript">
-function ResetClicked()
-{
-	$("#resetEvent").show();
-	$("#saveEvent").hide();
+var file = document.getElementById('guestListFile');
+
+file.addEventListener('change', function() {
+    var reader = new FileReader();
+    var f = file.files[0];
+    reader.onload = function(e) {
+        var CSVARRAY = parseResult(e.target.result); //this is where the csv array will be
+    };
+    reader.readAsText(f);
+});
+
+function parseResult(result) {
+    var resultArray = [];
+    result.split("\n").forEach(function(row) {
+        var rowArray = [];
+        row.split(",").forEach(function(cell) {
+            rowArray.push(cell);
+        });
+        resultArray.push(rowArray);
+    });
+    return resultArray;
 }
-function SaveClicked()
-{
-	$("#resetEvent").hide();
-	$("#saveEvent").show();
+
+function addRow() {
+    
+    var firstName = document.getElementById("firstname");
+    var lastName = document.getElementById("lastname");
+    var sametable1 = document.getElementById("sametable1");
+    var sametable2 = document.getElementById("sametable2");
+    var sametable3 = document.getElementById("sametable3");
+    var notsametable1 = document.getElementById("notsametable1");
+    var notsametable2 = document.getElementById("notsametable2");
+    var tablenumber = document.getElementById("tablenumber");
+    var table = document.getElementById("guestsData");
+
+    var rowCount = table.rows.length;
+    var row = table.insertRow(rowCount);
+
+    row.insertCell(0).innerHTML= '<input type="button" value = "Delete" onClick="Javacsript:deleteRow(this)">';
+    row.insertCell(1).innerHTML= firstName.value;
+    row.insertCell(2).innerHTML= lastName.value;
+    row.insertCell(3).innerHTML= sametable1.value;
+    row.insertCell(4).innerHTML= sametable2.value;
+    row.insertCell(5).innerHTML= sametable3.value;
+    row.insertCell(6).innerHTML= notsametable1.value;
+    row.insertCell(7).innerHTML= notsametable2.value;
+    row.insertCell(8).innerHTML= tablenumber.value;
+}
+
+function deleteRow(obj) {
+     
+    var index = obj.parentNode.parentNode.rowIndex;
+    var table = document.getElementById("guestsData");
+    table.deleteRow(index);
+   
 }
 
 function populateTable() {
@@ -38,7 +84,7 @@ function populateTable() {
       // This will split the string into array line by line
       var lineByline = data.split('\n');
       
-        // Here we're iteraing the array which you've created and printing the values
+        // Here we're iterating the array which you've created and printing the values
         $.each(lineByline , function(key,value){
             tableContent += '<tr>';
             tableContent += '<td>' + value + '</td>';
@@ -49,6 +95,43 @@ function populateTable() {
     });
 };
 
+$("#guestsUpdateInformation").submit(function (e){
+	$.ajax({
+	    url: "/EagleEventService/event/eventservice/guest/" + updateDataItem.guestId,
+	    type: 'PUT',
+	    datatype: 'json',
+		contentType: "application/json",
+		data: '{'+  
+		'"guest_id" :"'+ updateDataItem.guesttId +'",'+
+		'"firstname" : "'+ updateDataItem.firstname +'",'+
+		'"lastname" : "'+ updateDataItem.lastname +'"'+
+		'"sametable1" : "'+ updateDataItem.sametable1 +'",'+
+		'"sametable2" : "'+ updateDataItem.sametable2 +'",'+ +'",'+
+		'"sametable3" : "'+ updateDataItem.sametable3 +'",'+ +'",'+
+		'"notsametable1" : "'+ updateDataItem.notsametable1 +'",'+ +'",'+
+		'"notsametable2" : "'+ updateDataItem.notsametable2 +'",'+ +'",'+
+		'"tablenumber" : "'+ updateDataItem.tablenumber +'",'+ +'"'
+		"}",
+	    statusCode: {
+	    200: function( response ) {
+	    			dataSource.read();
+	    			Refresh();
+	    			alert('Guest was successfully updated.');
+	    		},
+	    401:function( response ) {
+	    		//$('#page-message').html("You must Login first");
+	    		},
+    	405:function( response ) {
+	  	    	//$('#page-message').html("Access to the page forbidden");
+	  	    	}
+	    },
+	    
+	    error: function(jqXHR, textStatus, errorThrown) {
+  	        console.log("error " + textStatus);
+  	        console.log("incoming Text " + jqXHR.responseText);}
+	  }); 
+	e.preventDefault();
+});
 </script>
 </head>
 <body> 
@@ -73,24 +156,45 @@ function populateTable() {
 			</a>
 		</p>
 		
-		<input type="image" src="images/eagleResetEventButton.png" height="75" width="auto" name="reset" value="Reset" style="float: right;" onclick="ResetClicked()"> <br>
-		<input type="image" src="images/eagleSaveEventButton.png" height="75" width="auto" name="reset" value="Reset" style="float: right;" onclick="SaveClicked()"> <br>
+		<input type="image" src="images/eagleResetButton.png" 
+		   		height="50" width="auto" name="reset" value="Reset"><br>
+		   		 
+		<input type="image" src="images/eagleSaveButton.png" 
+		   		height="50" width="auto" name="save" value="Save">  <br>
 </div>
 <div id="eventInformation" class="generalArea" style="height: 300px;">
-<br>
-<div id="updateGuests" style="display:none;">
 <form id="eventUpdateGuestsInformation" method="post"> 
+		<br>
 		Guest List File:
-		<input type="file" id="updateGuestList">
+		<input type="file" id="guestListFile">
 		<span id="guestListFileErr" class="error">*</span>
-				   
-		<!-- TODO: Generate Table/Grid from Event max table information -->   
+		<br>
+		
+		<button onclick="populateTable()" style="background-color: transparent;"> 
+			<img src="images/eagleLoadButton.png" height="50" width="auto"/>
+		</button>
+		<br>
+				    
+		<table id="guestsData"  border="1">
+		    <tr>
+		        <td>&nbsp;</td>
+		        <td><b>First Name</b></td>
+		        <td><b>Last Name</b></td>
+		        <td><b>Same Table 1</b></td>
+		        <td><b>Same Table 2</b></td>
+		        <td><b>Same Table 3</b></td>
+		        <td><b>Not Same Table 1</b></td>
+		        <td><b>Not Same Table 2</b></td>
+		        <td><b>Table Number</b></td>
+		    </tr>
+		</table>
+		&nbsp;<br><br>
 				
 		<div id="page-message" style="color: red"></div>
 		<input type="image" src="images/eagleGenerateSeatingButton.png" 
 		 	   height="auto" width="200" name="generateSeating" value="GenerateSeating"> 
+		<br>
 </form>
-</div>
 </div>
 </div>
 </body>
