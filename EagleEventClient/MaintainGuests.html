@@ -19,7 +19,7 @@ file.addEventListener('change', function() {
     var reader = new FileReader();
     var f = file.files[0];
     reader.onload = function(e) {
-        var CSVARRAY = parseResult(e.target.result); //this is where the csv array will be
+        var CSVARRAY = parseResult(e.target.result); // This is where the csv array will be
     };
     reader.readAsText(f);
 });
