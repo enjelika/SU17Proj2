@@ -236,10 +236,23 @@ $(document).ready(function() {
        	dataSource: dataSource
     });
    
+    function GetAddCustomerSelected()
+    {
+    	var dropdownlist = $("#addCustomerName").data("kendoDropDownList");
+    	var dataItem = dropdownlist.dataItem();
+    	return dataItem.customerId;
+    }
+    
+    function GetAddStaffSelected()
+    {
+    	var dropdownlist = $("#addStaffName").data("kendoDropDownList");
+    	var dataItem = dropdownlist.dataItem();
+    	return dataItem.staffId;
+    }
     
 	$("#eventAddInformation").submit(function (e){
 		$.ajax({
-		    url: "/EagleEventService/event/eventservice/events/",
+		    url: "/EagleEventService/event/eventservice/event/",
 		    type: 'POST',
 		    datatype: 'json',
 			contentType: "application/json",
@@ -249,8 +262,8 @@ $(document).ready(function() {
 			'"maxguests" : "'+$('#addMaxGuests').val() +'",'+
 			'"numtables" : "'+$('#addNumTables').val() +'",'+
 			'"guestlist" : "'+$('#addGuestList').val() +'",'+
-			'"customer_id" : "'+$('#addCustomerId').val() +'",' +
-			'"staff_id" : "'+$('#addStaffId').val() +'"'+
+			'"customer_id" : "'+ GetAddCustomerSelected() +'",' +
+			'"staff_id" : "'+ GetAddStaffSelected() +'"'+
 			"}",
 		    statusCode: {
 		    200: function( response ) {
@@ -275,7 +288,7 @@ $(document).ready(function() {
 	
 	$("#eventUpdateInformation").submit(function (e){
 		$.ajax({
-		    url: "/EagleEventService/event/eventservice/events/" + updateDataItem.eventId,
+		    url: "/EagleEventService/event/eventservice/event/" + updateDataItem.eventId,
 		    type: 'PUT',
 		    datatype: 'json',
 			contentType: "application/json",
@@ -312,7 +325,7 @@ $(document).ready(function() {
 	
 	$("#eventRemoveInformation").submit(function (e){
 		$.ajax({
-		    url: "/EagleEventService/event/eventservice/events/" + updateDataItem.eventId,
+		    url: "/EagleEventService/event/eventservice/event/" + updateDataItem.eventId,
 		    type: 'DELETE',
 		    datatype: 'json',
 			contentType: "application/json",

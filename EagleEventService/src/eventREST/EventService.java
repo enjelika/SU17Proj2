@@ -22,10 +22,12 @@ import javax.ws.rs.core.SecurityContext;
 import eventDAO.CompanyDAO;
 import eventDAO.CustomerDAO;
 import eventDAO.EM;
+import eventDAO.EventDAO;
 import eventDAO.GuestDAO;
 import eventDAO.StaffDAO;
 import eventPD.Company;
 import eventPD.Customer;
+import eventPD.Event;
 import eventPD.Guest;
 import eventPD.Staff;
 import eventUT.Log;
@@ -190,6 +192,93 @@ import eventUT.Message;
 		}
 		   
 		   @GET
+		   @Path("/event")
+		   @Produces(MediaType.APPLICATION_JSON)
+		   public List<Event> getEvents(){
+			   return (EventDAO.listEvent());
+		   }	
+		   
+		   @POST
+		   @Path("/event")
+		   @Produces(MediaType.APPLICATION_JSON)
+		   public ArrayList<Message> addEvent(Event event,@Context final HttpServletResponse response) throws IOException{
+			   
+			   if (event == null) {
+
+					  response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+					  try {
+					        response.flushBuffer();
+					  }catch(Exception e){}
+					  messages.add(new Message("op002","Fail Operation",""));
+					  return messages;
+				  }
+				  else  {
+					  
+					  EntityTransaction userTransaction = EM.getEM().getTransaction();
+					  userTransaction.begin();
+					  EventDAO.addEvent(event);
+					  userTransaction.commit();
+					  messages.add(new Message("op001","Success Operation",""));
+					  return messages;
+				  }
+		   }
+		   
+		   @PUT
+		   @Path("/event/{id}")
+		   @Produces(MediaType.APPLICATION_JSON)
+		   @Consumes(MediaType.APPLICATION_JSON)
+		   public ArrayList<Message> UpdateEvent(Event updatedEvent,@PathParam("id") String id,@Context final HttpServletResponse response) throws IOException{
+
+			  if (updatedEvent == null) {
+
+				  response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+				  try {
+				        response.flushBuffer();
+				  }catch(Exception e){}
+				  messages.add(new Message("op002","Fail Operation",""));
+				  return messages;
+			  }
+			  else  {
+				  
+				  EntityTransaction userTransaction = EM.getEM().getTransaction();
+				  userTransaction.begin();
+				  Event existingEvent = EventDAO.findEventByIdNumber(id);
+
+				  EventDAO.saveEvent(existingEvent);
+				  userTransaction.commit();
+				  messages.add(new Message("op001","Success Operation",""));
+				  return messages;
+			  }
+		}
+		   
+		   @DELETE
+		   @Path("/event/{id}")
+		   @Produces(MediaType.APPLICATION_JSON)
+		   @Consumes(MediaType.APPLICATION_JSON)
+		   public ArrayList<Message> DeleteEvent(Event deleteEvent,@PathParam("id") String id,@Context final HttpServletResponse response) throws IOException{
+
+			  if (deleteEvent == null) {
+
+				  response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+				  try {
+				        response.flushBuffer();
+				  }catch(Exception e){}
+				  messages.add(new Message("op002","Fail Operation",""));
+				  return messages;
+			  }
+			  else  {
+				  
+				  EntityTransaction userTransaction = EM.getEM().getTransaction();
+				  userTransaction.begin();
+				  Event existingEvent = EventDAO.findEventByIdNumber(id);
+				  EventDAO.removeEvent(existingEvent);
+				  userTransaction.commit();
+				  messages.add(new Message("op001","Success Operation",""));
+				  return messages;
+			  }
+		}
+		   
+		   @GET
 		   @Path("/staff")
 		   @Produces(MediaType.APPLICATION_JSON)
 		   public List<Staff> getStaff(){
@@ -277,7 +366,7 @@ import eventUT.Message;
 		}
 		   
 		   @OPTIONS
-		   @Path("/{a:company|customer|staff|guest}")
+		   @Path("/{a:company|customer|staff|guest|event}")
 		   @Produces(MediaType.APPLICATION_JSON)
 		   public String getSupportedOperations(){
 		      return "{ {'POST' : { 'description' : 'update company'}} {'GET' : {'description' : 'get company'}} {'PUT' : {'description' : 'put'}} {'DELETE' : {'description' : 'delete'}}}";

@@ -95,7 +95,11 @@
                 },
                 dataSource: dataSource,
                 height: 550,
-                sortable: true,
+                sortable: {
+                	mode: "multiple",
+                	allowUnsort: true,
+                	showIndexes: true
+                },
                 pageable: {
                     refresh: true,
                     pageSizes: true,
