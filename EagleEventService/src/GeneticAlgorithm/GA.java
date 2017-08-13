@@ -24,9 +24,6 @@ public class GA
 	// recomBination rate
 	private static double xoRate = 0.5;
 
-	// how many tournaments should be played
-	private static double maxNoTour = 3000;
-
 	private static int tableSize = 4; // Default value. Need to obtain somewhere in the db
 
 	// Create an initial input guests list
@@ -57,6 +54,7 @@ public class GA
 			{
 				System.out.println(guestsList[i].firstname + " (" + guestsList[i].tablenumber + ") ");
 			}
+			storeResultToTheDB();
 		}
 	}
 
@@ -238,7 +236,7 @@ public class GA
 	}
 
 	// Run Algorithm
-	public static void runGA(List<Guest> guests, int size)
+	public static void runGA(List<Guest> guests, int size, int maxNoTour)
 	{
 		guestsListInTheDB = guests;
 		chromLength = guestsListInTheDB.size();
@@ -247,7 +245,7 @@ public class GA
 		population = new int[popSize][chromLength];
 		initChromosome = new int[chromLength];
 		bestChromosomeSoFar = new int[chromLength];
-		
+
 		// Initialize the population (randomly)
 		initPopulation();
 		System.out.println("Max fitness = " + expectedFitnessValue(guestsListInTheDB));

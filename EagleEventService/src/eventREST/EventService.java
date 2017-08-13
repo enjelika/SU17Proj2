@@ -55,7 +55,8 @@ import eventUT.Message;
 		   public Company getCompany(){
 			// Example how to call the GA
 				int tableSize = 4;
-				GeneticAlgorithm.GA.runGA(GuestDAO.listGuest(), tableSize);
+				int numberOfTour = 9999;
+				GeneticAlgorithm.GA.runGA(GuestDAO.listGuest(), tableSize, numberOfTour);
 				GeneticAlgorithm.GA.printResult();
 		      return company;
 		   }
