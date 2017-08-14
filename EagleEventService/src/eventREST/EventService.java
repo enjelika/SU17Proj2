@@ -110,6 +110,34 @@ import eventUT.Message;
 			   return (GuestDAO.listGuest());
 		   }	
 		   
+		   @PUT
+		   @Path("/guest/{id}")
+		   @Produces(MediaType.APPLICATION_JSON)
+		   @Consumes(MediaType.APPLICATION_JSON)
+		   public ArrayList<Message> UpdateEventSeating(Event updatedEvent,@PathParam("id") String id,@Context final HttpServletResponse response) throws IOException{
+
+			  if (updatedEvent == null) {
+
+				  response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+				  try {
+				        response.flushBuffer();
+				  }catch(Exception e){}
+				  messages.add(new Message("op002","Fail Operation",""));
+				  return messages;
+			  }
+			  else  {
+				  
+				  EntityTransaction userTransaction = EM.getEM().getTransaction();
+				  userTransaction.begin();
+				  Customer existingCustomer = CustomerDAO.findCustomerByIdNumber(id);
+				  //existingCustomer.setEmail(updatedEvent.getEmail());
+				  CustomerDAO.saveCustomer(existingCustomer);
+				  userTransaction.commit();
+				  messages.add(new Message("op001","Success Operation",""));
+				  return messages;
+			  }
+		}
+		   
 		   @GET
 		   @Path("/customer")
 		   @Produces(MediaType.APPLICATION_JSON)

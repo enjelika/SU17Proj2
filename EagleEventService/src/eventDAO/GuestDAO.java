@@ -38,4 +38,13 @@ public class GuestDAO {
         TypedQuery<Guest> query = EM.getEM().createQuery("SELECT guest FROM guest guest", Guest.class);
         return query.getResultList();
       }
+      
+      public static List<Guest> listGuestByEventId(int event) 
+      {
+    	  Query query = EM.getEM().createQuery("SELECT g FROM guest g WHERE g.event = " + event);
+	  		@SuppressWarnings("unchecked")
+	  		List<Guest> listGuestByEventId= (List<Guest>) query.getResultList();
+	
+	  		return listGuestByEventId;
+      }
 }
