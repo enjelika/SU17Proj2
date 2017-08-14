@@ -46,12 +46,15 @@ public class Guest implements Serializable {
 		@Column(name = "tablenumber", nullable = true,length = 10)
 		private int tablenumber;
 		
+		@Column(name = "event", nullable = true,length = 10)
+		private int event;
+		
 	   public Guest(){
 
 	   }
 	   
 	   public Guest(String firstname, String lastname, int sametable1, int sametable2, 
-			   int sametable3, int notsametable1, int notsametable2, int tablenumber){
+			   int sametable3, int notsametable1, int notsametable2, int tablenumber, int event){
 	     this();
 	     this.firstname = firstname;
 	     this.lastname = lastname;
@@ -61,6 +64,7 @@ public class Guest implements Serializable {
 	     this.notsametable1 = notsametable1;
 	     this.notsametable2 = notsametable2;
 	     this.tablenumber = tablenumber;
+	     this.event = event;
 	   }
 
 
@@ -155,5 +159,14 @@ public class Guest implements Serializable {
 	   @XmlElement
 	   public void setTableNumber(int tablenumber) {
 		   this.tablenumber = tablenumber;
+	   }
+	   
+		public int getEvent() {
+		      return event;
+	   }
+	   
+	   @XmlElement
+	   public void setEvent(int event) {
+		   this.event = event;
 	   }
 }

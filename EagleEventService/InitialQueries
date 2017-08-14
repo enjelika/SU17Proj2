@@ -338,7 +338,8 @@ CREATE TABLE `guest` (
   `sametable3` int(10) NOT NULL,
   `notsametable1` int(10) NOT NULL,
   `notsametable2` int(10) NOT NULL,
-  `tablenumber` int(10) DEFAULT NULL
+  `tablenumber` int(10) DEFAULT NULL,
+  `event` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -353,13 +354,13 @@ ALTER TABLE `guest`
   ADD PRIMARY KEY (`guest_id`),
   ADD UNIQUE KEY `guest_id` (`guest_id`);
 
-INSERT INTO `guest` (`guest_id`, `firstname`, `lastname`, `sametable1`, `sametable2`, `sametable3`, `notsametable1`, `notsametable2`, `tablenumber`) VALUES
-(1, 'Jared', 'Barger', 2, 0, 0, 0, 0, 1),
-(2, 'Blake', 'Jesch', 0, 0, 0, 0, 0, 1),
-(3, 'Shane', 'Elliott', 5, 0, 0, 0, 0, 2),
-(4, 'Debra', 'Hogue', 0, 0, 0, 0, 0, 2),
-(5, 'Christine', 'Gourley', 0, 0, 0, 0, 0, 1),
-(6, 'Thuy', 'Nguyen', 0, 0, 0, 0, 0, 2);
+INSERT INTO `guest` (`guest_id`, `firstname`, `lastname`, `sametable1`, `sametable2`, `sametable3`, `notsametable1`, `notsametable2`, `tablenumber`, 'event') VALUES
+(1, 'Jared', 'Barger', 2, 0, 0, 0, 0, 1, 1),
+(2, 'Blake', 'Jesch', 0, 0, 0, 0, 0, 1, 1),
+(3, 'Shane', 'Elliott', 5, 0, 0, 0, 0, 2, 1),
+(4, 'Debra', 'Hogue', 0, 0, 0, 0, 0, 2, 1),
+(5, 'Christine', 'Gourley', 0, 0, 0, 0, 0, 1, 1),
+(6, 'Thuy', 'Nguyen', 0, 0, 0, 0, 0, 2, 1);
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
@@ -511,7 +512,6 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `event`
 --
-
 CREATE TABLE `event` (
   `event_id` int(10) NOT NULL,
   `venue` varchar(40) NOT NULL,
@@ -524,27 +524,10 @@ CREATE TABLE `event` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Indexes for dumped tables
+-- Dumping data for table `event`
 --
 
---
--- Indexes for table `event`
---
-ALTER TABLE `event`
-  ADD KEY `customer_id` (`customer_id`),
-  ADD KEY `staff_id` (`staff_id`);
+INSERT INTO `event` (`event_id`, `venue`, `maxguests`, `numtables`, `guestlist`, `customer_id`, `staff_id`, `name`) VALUES
+(1, 'Main Event', 8, 9, 0x30, 2752, 2602, 'Event Name')
 
---
--- Constraints for dumped tables
---
 
---
--- Constraints for table `event`
---
-ALTER TABLE `event`
-  ADD CONSTRAINT `event_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`),
-  ADD CONSTRAINT `event_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`);
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
