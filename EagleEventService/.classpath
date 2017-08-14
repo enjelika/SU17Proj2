@@ -39,5 +39,8 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/persistence-api-1.0.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/validation-api-1.1.0.Final.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/json-simple-1.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/cdi-api-1.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/com.sun.rowset.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/myfaces-api-2.3.0-beta.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

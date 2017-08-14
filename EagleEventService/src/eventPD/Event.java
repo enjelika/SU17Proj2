@@ -1,8 +1,8 @@
 package eventPD;
 
 import java.io.Serializable;
+import java.sql.Blob;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,8 +35,8 @@ public class Event implements Serializable {
 		private int numtables;
 		
 		
-		@Column(name = "guestlist", nullable = false,length = 10)
-		private int guestlist;
+		@Column(name = "guestlist", nullable = false,length = 2147483647)
+		private Blob guestlist;
 		
 		@Column(name = "customer_id", nullable = false,length = 10)
 		private int customer_id;
@@ -49,11 +49,9 @@ public class Event implements Serializable {
 	   private String name;
 
 
-	   public Event(){
-
-	   }
+	   public Event(){}
 	   
-	   public Event(String venue, int maxguests, int numtables, int guestlist,
+	   public Event(String venue, int maxguests, int numtables, Blob guestlist,
 			   int customer_id, int staff_id, String name){
 	     this();
 	     this.venue = venue;
@@ -111,11 +109,11 @@ public class Event implements Serializable {
 			this.numtables = numtables;
 		}
 		
-		public int getGuestList() {
+		public Blob getGuestList() {
 			return guestlist;
 		}
 		@XmlElement
-		public void setGuestList(int guestlist) {
+		public void setGuestList(Blob guestlist) {
 		
 			this.guestlist = guestlist;
 		}
