@@ -1,15 +1,13 @@
 package eventPD;
 
 import java.io.Serializable;
-import java.sql.Blob;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Lob;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -34,9 +32,9 @@ public class Event implements Serializable {
 		@Column(name = "numtables", nullable = false,length = 10)
 		private int numtables;
 		
-		
-		@Column(name = "guestlist", nullable = false,length = 2147483647)
-		private Blob guestlist;
+		@Lob
+		@Column(name = "guestlist", nullable = true,length = 2147483647)
+		private byte[] guestlist;
 		
 		@Column(name = "customer_id", nullable = false,length = 10)
 		private int customer_id;
@@ -51,7 +49,7 @@ public class Event implements Serializable {
 
 	   public Event(){}
 	   
-	   public Event(String venue, int maxguests, int numtables, Blob guestlist,
+	   public Event(String venue, int maxguests, int numtables, byte[] guestlist,
 			   int customer_id, int staff_id, String name){
 	     this();
 	     this.venue = venue;
@@ -109,11 +107,11 @@ public class Event implements Serializable {
 			this.numtables = numtables;
 		}
 		
-		public Blob getGuestList() {
+		public byte[] getGuestList() {
 			return guestlist;
 		}
 		@XmlElement
-		public void setGuestList(Blob guestlist) {
+		public void setGuestList(byte[] guestlist) {
 		
 			this.guestlist = guestlist;
 		}

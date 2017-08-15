@@ -1,11 +1,15 @@
 package eventREST;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityTransaction;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -20,8 +24,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import eventDAO.CompanyDAO;
@@ -33,6 +35,7 @@ import eventDAO.StaffDAO;
 import eventPD.Company;
 import eventPD.Customer;
 import eventPD.Event;
+import eventPD.FileBean;
 import eventPD.Guest;
 import eventPD.Staff;
 import eventUT.Log;
@@ -233,19 +236,25 @@ import eventUT.Message;
 			   return (EventDAO.listEvent());
 		   }	
 		   
+		   @SuppressWarnings("unchecked")
 		   @POST
 		   @Path("/event")
 		   @Produces(MediaType.APPLICATION_JSON)
-		   public ArrayList<Message> addEvent(String event,@Context final HttpServletResponse response) throws IOException{
-			   
+		   public ArrayList<Message> addEvent(String event,@Context final HttpServletRequest request, @Context final HttpServletResponse response) throws IOException
+		   {   
 			   Object obj = JSONValue.parse(event);
 			   HashMap<String, String> map = (HashMap<String, String>) obj;
 			   if (event == null) {
 
 					  response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
-					  try {
+					  try 
+					  {
 					        response.flushBuffer();
-					  }catch(Exception e){}
+					  }
+					  catch(Exception e)
+					  {
+						  e.printStackTrace();
+					  }
 					  messages.add(new Message("op002","Fail Operation",""));
 					  return messages;
 				  }
@@ -258,6 +267,9 @@ import eventUT.Message;
 					  addEvent.setCustomerId(Integer.parseInt(map.get("customer_id")));
 					  addEvent.setStaffId(Integer.parseInt(map.get("staff_id")));
 					  addEvent.setVenue(map.get("venue"));
+					  // Get downloaded file from HttpRequest ---------------------------
+					  addEvent.setGuestList(request.getParameter("formData").getBytes());
+					  // ----------------------------------------------------------
 					  addEvent.setMaxguests(Integer.parseInt(map.get("maxguests")));
 					  addEvent.setNumtables(Integer.parseInt(map.get("numtables")));
 					  EventDAO.addEvent(addEvent);
@@ -267,7 +279,8 @@ import eventUT.Message;
 				  }
 		   }
 		   
-		   @PUT
+		   @SuppressWarnings("unchecked")
+		@PUT
 		   @Path("/event/{id}")
 		   @Produces(MediaType.APPLICATION_JSON)
 		   @Consumes(MediaType.APPLICATION_JSON)
@@ -284,11 +297,24 @@ import eventUT.Message;
 				  messages.add(new Message("op002","Fail Operation",""));
 				  return messages;
 			  }
-			  else  {
-				  
+			  else  
+			  {  
 				  EntityTransaction userTransaction = EM.getEM().getTransaction();
 				  userTransaction.begin();
 				  Event existingEvent = EventDAO.findEventByIdNumber(id);
+				  try 
+				  {
+					  int eventID = Integer.parseInt(id);
+					  FileBean.uploadFile(eventID);
+				  } 
+				  catch (NumberFormatException e) 
+				  {
+					e.printStackTrace();
+				  } 
+				  catch (SQLException e) 
+				  {
+					e.printStackTrace();
+				  }
 				  existingEvent.setCustomerId(Integer.parseInt(map.get("customer_id")));
 				  existingEvent.setStaffId(Integer.parseInt(map.get("staff_id")));
 				  EventDAO.saveEvent(existingEvent);
