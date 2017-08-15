@@ -267,9 +267,10 @@ import eventUT.Message;
 					  addEvent.setCustomerId(Integer.parseInt(map.get("customer_id")));
 					  addEvent.setStaffId(Integer.parseInt(map.get("staff_id")));
 					  addEvent.setVenue(map.get("venue"));
-					  // Get downloaded file from HttpRequest ---------------------------
-					  addEvent.setGuestList(request.getParameter("formData").getBytes());
-					  // ----------------------------------------------------------
+					  // Get Uploaded file from HttpServletRequest -------------------------
+					  if (request.getParameter("formData").getBytes().length != 0)
+						  addEvent.setGuestList(request.getParameter("formData").getBytes());
+					  // -------------------------------------------------------------------
 					  addEvent.setMaxguests(Integer.parseInt(map.get("maxguests")));
 					  addEvent.setNumtables(Integer.parseInt(map.get("numtables")));
 					  EventDAO.addEvent(addEvent);
