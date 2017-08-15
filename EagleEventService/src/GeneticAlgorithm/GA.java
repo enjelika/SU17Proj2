@@ -24,8 +24,9 @@ public class GA
 	// recomBination rate
 	private static double xoRate = 0.5;
 
-	private static int tableSize = 4; // Default value. Need to obtain somewhere in the db
-
+	private static int tableSize = 4; // Default value
+	public static int totalNumberOfTable = 1; // Default value
+	
 	// Create an initial input guests list
 	private static IndividualGuest[] guestsList;
 
@@ -102,19 +103,19 @@ public class GA
 	// Assign table number depend on the size of the table to each guest
 	public static void AssignTableNumber(IndividualGuest[] guestsList)
 	{
-		int tableNumber = 1; // First table number
+		totalNumberOfTable = 1; // First table number
 		int seatNumber = 1; // First seat number
 		for (int i = 0; i < guestsList.length; i++)
 		{
 			if (seatNumber < tableSize + 1)
 			{
-				guestsList[i].tablenumber = tableNumber; // Assign table number
+				guestsList[i].tablenumber = totalNumberOfTable; // Assign table number
 				seatNumber++; // Increment seat number
 			} else
 			{
 				seatNumber = 1; // Reset seat number
-				tableNumber++; // Increment table number
-				guestsList[i].tablenumber = tableNumber; // Assign table number
+				totalNumberOfTable++; // Increment table number
+				guestsList[i].tablenumber = totalNumberOfTable; // Assign table number
 				seatNumber++; // Increment seat number
 			}
 		}
@@ -331,18 +332,18 @@ public class GA
 	}
 
 	/**
-	 * This method takes an array of ints (indices of dashes) and returns a list
-	 * of Dashes list is used later for finding fitness
+	 * This method takes an array of ints and returns a list
+	 * of guests is used later for finding fitness
 	 */
 	public static List<IndividualGuest> asList(int[] ints)
 	{
-		List<IndividualGuest> dashList = new ArrayList<IndividualGuest>();
+		List<IndividualGuest> list = new ArrayList<IndividualGuest>();
 		for (int index = 0; index < ints.length; index++)
 		{
-			dashList.add(guestsList[ints[index]]);
+			list.add(guestsList[ints[index]]);
 		}
-		AssignTableNumber(dashList);
-		return dashList;
+		AssignTableNumber(list);
+		return list;
 	}
 
 	/**

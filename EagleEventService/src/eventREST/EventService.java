@@ -53,11 +53,6 @@ import eventUT.Message;
 		   @Path("/company/")
 		   @Produces(MediaType.APPLICATION_JSON)
 		   public Company getCompany(){
-			// Example how to call the GA
-				int tableSize = 4;
-				int numberOfTour = 9999;
-				GeneticAlgorithm.GA.runGA(GuestDAO.listGuest(), tableSize, numberOfTour);
-				GeneticAlgorithm.GA.printResult();
 		      return company;
 		   }
 		 
@@ -131,19 +126,16 @@ import eventUT.Message;
 				  try {
 				        response.flushBuffer();
 				  }catch(Exception e){}
-				  messages.add(new Message("op002","Fail Operation",""));
+				  messages.add(new Message("op002","Fail Seating Arrangment",""));
 				  return messages;
 			  }
 			  else  {
-				  
-				  EntityTransaction userTransaction = EM.getEM().getTransaction();
-				  userTransaction.begin();
-				  Customer existingCustomer = CustomerDAO.findCustomerByIdNumber(id);
-				  //existingCustomer.setEmail(updatedEvent.getEmail());
-				  CustomerDAO.saveCustomer(existingCustomer);
-				  userTransaction.commit();
-				  messages.add(new Message("op001","Success Operation",""));
-				  return messages;
+				  	int tableSize = updatedEvent.getMaxguests();
+				  	int numberOfTour = 9999;	// Set the number of tournament to prevent a likely big endless loop
+					GeneticAlgorithm.GA.runGA(GuestDAO.listGuestByEventId(updatedEvent.getEventId()), tableSize, numberOfTour);
+					GeneticAlgorithm.GA.printResult();
+					messages.add(new Message("op001","Success Seating Arrangement",""));
+					return messages;
 			  }
 		}
 		   
