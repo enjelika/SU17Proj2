@@ -354,7 +354,7 @@ ALTER TABLE `guest`
   ADD PRIMARY KEY (`guest_id`),
   ADD UNIQUE KEY `guest_id` (`guest_id`);
 
-INSERT INTO `guest` (`guest_id`, `firstname`, `lastname`, `sametable1`, `sametable2`, `sametable3`, `notsametable1`, `notsametable2`, `tablenumber`, 'event') VALUES
+INSERT INTO `guest` (`guest_id`, `firstname`, `lastname`, `sametable1`, `sametable2`, `sametable3`, `notsametable1`, `notsametable2`, `tablenumber`, `event`) VALUES
 (1, 'Jared', 'Barger', 2, 0, 0, 0, 0, 1, 1),
 (2, 'Blake', 'Jesch', 0, 0, 0, 0, 0, 1, 1),
 (3, 'Shane', 'Elliott', 5, 0, 0, 0, 0, 2, 1),
