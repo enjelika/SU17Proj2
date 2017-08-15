@@ -517,7 +517,7 @@ CREATE TABLE `event` (
   `venue` varchar(40) NOT NULL,
   `maxguests` int(10) NOT NULL,
   `numtables` int(10) NOT NULL,
-  `guestlist` blob NOT NULL,
+  `guestlist` blob,
   `customer_id` int(10) NOT NULL,
   `staff_id` int(10) NOT NULL,
   `name` varchar(40) NOT NULL
