@@ -110,6 +110,15 @@ import eventUT.Message;
 			   return (GuestDAO.listGuest());
 		   }	
 		   
+		   @GET
+		   @Path("/guest/{id}")
+		   @Produces(MediaType.APPLICATION_JSON)
+		   @Consumes(MediaType.APPLICATION_JSON)
+		   public List<Guest> GetGuestsForEvent(Event updatedEvent,@PathParam("id") String id,@Context final HttpServletResponse response) throws IOException{
+
+			  return GuestDAO.listGuestByEventId(Integer.parseInt(id));
+		}
+		   
 		   @PUT
 		   @Path("/guest/{id}")
 		   @Produces(MediaType.APPLICATION_JSON)
