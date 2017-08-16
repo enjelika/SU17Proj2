@@ -41,8 +41,51 @@ function getCompanyInfo() {
   	        console.log("incoming Text " + jqXHR.responseText);}
 	  });   	
 }
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function setHeader(xhr) {
+	  token = getCookie("token");
+	  xhr.setRequestHeader('Authorization', 'Bearer '+token );		  
+}
+
+function getCurrentUser() {
+	$.ajax({
+	    url: "/EagleEventService/system/systemservices/users/current",
+	    type: 'GET',
+	    datatype: 'json',
+	    statusCode: {
+	    200: function( response ) {
+	
+	    },
+	    401:function( response ) {
+	    		alert("You must Login First.");
+	    		window.location = "http://localhost/EagleEventClient/login.html";		
+	    }
+	    },
+	    
+	    error: function(jqXHR, textStatus, errorThrown) {
+  	        console.log("error " + textStatus);
+  	        console.log("incoming Text " + jqXHR.responseText);},
+	    beforeSend: setHeader       
+	  });   	
+}
 
 $(document).ready(function() {
+	getCurrentUser();
 	getCompanyInfo();
 	
 	$("#companyInformation").submit(function (e){
@@ -63,10 +106,8 @@ $(document).ready(function() {
 		    			alert('Company was successfully updated.')
 		    		},
 		    401:function( response ) {
-		    		//$('#page-message').html("You must Login first");
 		    		},
 	    	    405:function( response ) {
-		  	    	//$('#page-message').html("Access to the page forbidden");
 		  	    	}
 		    },
 		    
