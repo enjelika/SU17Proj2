@@ -38,27 +38,29 @@ function RemoveClicked()
 
 function printGuestList(){
 	var dataSourcePrint = new kendo.data.DataSource({
-		  transport: { 
-		    read: function(options) { 
-		      $.ajax({
-	  	    	 url: "/EagleEventService/event/eventservice/guest/" + updateDataItem.eventId, 
-			      dataType: "json",
-			      success: function(result)
-			      {
-			    		var grid = $("#grid").data("kendoGrid");
-			    		grid.saveAsPDF();
-			      },
-			      error: function(result)
-			      {
-			    	  
-			      }
-		      });
-		    }
-		  }
+	transport: { 
+	    read: { 
+	      url: "/EagleEventService/event/eventservice/guest/" + updateDataItem.eventId, 
+	      dataType: "json"
+	    }
+	  }
 		});
 	
 	var grid = $("#grid").data("kendoGrid");
 	grid.setDataSource(dataSourcePrint);
+	
+	dataSourcePrint.fetch(function(){
+		var data = this.data();
+		if(data.length > 0)
+		{
+			var grid = $("#grid").data("kendoGrid");
+			var dsSort = [];
+			dsSort.push({ field: "tableNumber", dir: "asc" });
+			dsSort.push({ field: "lastName", dir: "asc" });
+			grid.dataSource.sort(dsSort);
+			grid.saveAsPDF();
+		}
+	});
 }
 
 function getSeatingGenerate() {
@@ -475,9 +477,9 @@ $(document).ready(function() {
 		   <input type="file" id="updateGuestList">
 		   <span id="guestListFileErr" class="error">*</span>
 		   <br><br>
-		   <a href="MaintainTables.html">Maintain Tables</a>
+		   <!--  <a href="MaintainTables.html">Maintain Tables</a>
 		   <a href="MaintainGuests.html">Maintain Guests</a>
-		   <br><br>
+		   <br><br>-->
 		   <div id="page-message" style="color: red"></div>
 		   
 		   
@@ -487,7 +489,6 @@ $(document).ready(function() {
 	<button type="button" style="background: url('images/eaglePrintGuestListButton.png') no-repeat;background-size: contain;height: 60px;width: 150px;" 
 		name="printGuests" value="PrintGuests" onclick="printGuestList()"></button>
 		   
-		   <br>
 		   <input type="image" src="images/eagleResetButton.png" 
 		   		height="50" width="auto" name="reset" value="Reset"> 
 		   <input type="image" src="images/eagleSaveButton.png" 
@@ -504,6 +505,8 @@ $(document).ready(function() {
 
 		</form></div></div>
 </div>
-    <div id="grid" style="display:none;"></div>
+<div id="outergrid" style="display: none;">
+    <div id="grid"></div>
+    </div>
 </body>
 </html>
