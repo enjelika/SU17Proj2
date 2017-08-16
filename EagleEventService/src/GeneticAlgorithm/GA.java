@@ -282,7 +282,6 @@ public class GA
 		for(int i = 0; i < guestsList.length; i++) {
 			GuestDAO.findGuestById(guestsList[i].guest_id).setTableNumber(guestsList[i].tablenumber);
 		}
-		
 		guestTransaction.commit();
 	}
 	

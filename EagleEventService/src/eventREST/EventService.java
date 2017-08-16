@@ -133,10 +133,22 @@ import eventUT.Message;
 				  return messages;
 			  }
 			  else  {
+				  EntityTransaction eventTransaction = EM.getEM().getTransaction();
+				  eventTransaction.begin();
+				  updatedEvent = EventDAO.findEventByIdNumber(id);
+				  eventTransaction.commit();
+				  
 				  	int tableSize = updatedEvent.getMaxguests();
 				  	int numberOfTour = 9999;	// Set the number of tournament to prevent a likely big endless loop
 					GeneticAlgorithm.GA.runGA(GuestDAO.listGuestByEventId(updatedEvent.getEventId()), tableSize, numberOfTour);
 					GeneticAlgorithm.GA.printResult();
+					updatedEvent.setNumtables(GeneticAlgorithm.GA.totalNumberOfTable);
+					
+					EntityTransaction eventTransaction2 = EM.getEM().getTransaction();
+					  eventTransaction2.begin();
+					  updatedEvent.setNumtables(GeneticAlgorithm.GA.totalNumberOfTable);
+					  eventTransaction2.commit();
+					
 					messages.add(new Message("op001","Success Seating Arrangement",""));
 					return messages;
 			  }
