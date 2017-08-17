@@ -50,7 +50,7 @@ public class GA
 	{
 		if (!solutionFound)
 		{
-			System.out.println("Fitness of best solution so far is: " + evalSolution(bestChromosomeSoFar));
+			System.out.println("Fitness of best solution so far is: " + evalSolution(bestChromosomeSoFar) + " / " + expectedFitnessValue(guestsListInTheDB));
 			for (int i = 0; i < chromLength; i++)
 			{
 				System.out.println(guestsList[i].firstname + " (" + guestsList[i].tablenumber + ") ");

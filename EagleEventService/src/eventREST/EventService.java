@@ -139,7 +139,7 @@ import eventUT.Message;
 				  eventTransaction.commit();
 				  
 				  	int tableSize = updatedEvent.getMaxguests();
-				  	int numberOfTour = 9999;	// Set the number of tournament to prevent a likely big endless loop
+				  	int numberOfTour = 2000;	// Set the number of tournament to prevent a likely big endless loop
 					GeneticAlgorithm.GA.runGA(GuestDAO.listGuestByEventId(updatedEvent.getEventId()), tableSize, numberOfTour);
 					GeneticAlgorithm.GA.printResult();
 					updatedEvent.setNumtables(GeneticAlgorithm.GA.totalNumberOfTable);
