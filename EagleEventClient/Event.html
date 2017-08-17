@@ -246,6 +246,10 @@ $(document).ready(function() {
         	updateDataItem = dropdownlist.dataItem();
 
         	$('#updateEventName').val(updateDataItem.event);
+        	var dropdownlist1 = $("#updateStaffName").data("kendoDropDownList");
+        	dropdownlist1.value(updateDataItem.staffId);
+        	var dropdownlist2 = $("#updateCustomerName").data("kendoDropDownList");
+        	dropdownlist2.value(updateDataItem.customerId);
         		}
         },
        	dataSource: dataSource
@@ -486,8 +490,6 @@ $(document).ready(function() {
 		   <br><br>
 		   <div id="page-message" style="color: red"></div>
 		   	<br>
-		   <input type="image" src="images/eagleResetButton.png" 
-		   		height="50" width="auto" name="reset" value="Reset"> 
 		   <input type="image" src="images/eagleSaveButton.png" 
 		   		height="50" width="auto" name="save" value="Save"> 
 		</form></div>
@@ -521,8 +523,6 @@ $(document).ready(function() {
 	<button type="button" style="background: url('images/eaglePrintGuestListButton.png') no-repeat;background-size: contain;height: 60px;width: 150px;" 
 		name="printGuests" value="PrintGuests" onclick="printGuestList()"></button>
 		   
-		   <input type="image" src="images/eagleResetButton.png" 
-		   		height="50" width="auto" name="reset" value="Reset"> 
 		   <input type="image" src="images/eagleSaveButton.png" 
 		   		height="50" width="auto" name="save" value="Save"> 
 		</form></div>

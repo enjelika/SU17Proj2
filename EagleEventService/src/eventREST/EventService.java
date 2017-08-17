@@ -293,7 +293,7 @@ import eventUT.Message;
 		   @Path("/event/{id}")
 		   @Produces(MediaType.APPLICATION_JSON)
 		   @Consumes(MediaType.APPLICATION_JSON)
-		   public ArrayList<Message> UpdateEvent(String updatedEvent,@PathParam("id") String id,@Context final HttpServletResponse response) throws IOException{
+		   public ArrayList<Message> UpdateEvent(String updatedEvent,@PathParam("id") String id,@Context final HttpServletRequest request, @Context final HttpServletResponse response) throws IOException{
 
 			   Object obj = JSONValue.parse(updatedEvent);
 			   HashMap<String, String> map = (HashMap<String, String>) obj;
@@ -311,7 +311,7 @@ import eventUT.Message;
 				  EntityTransaction userTransaction = EM.getEM().getTransaction();
 				  userTransaction.begin();
 				  Event existingEvent = EventDAO.findEventByIdNumber(id);
-				  try 
+				  /*try 
 				  {
 					  int eventID = Integer.parseInt(id);
 					  FileBean.uploadFile(eventID);
@@ -323,7 +323,7 @@ import eventUT.Message;
 				  catch (SQLException e) 
 				  {
 					e.printStackTrace();
-				  }
+				  }*/
 				  existingEvent.setCustomerId(Integer.parseInt(map.get("customer_id")));
 				  existingEvent.setStaffId(Integer.parseInt(map.get("staff_id")));
 				  EventDAO.saveEvent(existingEvent);
